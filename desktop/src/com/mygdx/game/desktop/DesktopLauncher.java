@@ -7,6 +7,6 @@ import com.mygdx.game.Game2048;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Game2048(), config);
+		new LwjglApplication(Game2048.getInstance(), config);
 	}
 }
