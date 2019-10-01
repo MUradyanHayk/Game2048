@@ -30,7 +30,7 @@ public class AssetsManager {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parameter.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_FONT;
-        parameter.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.1f);
+        parameter.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.06f);
         parameter.fontParameters.color = Color.WHITE;
 
         internalManager.load( ConstInterface.CONSOLAS_FONT, BitmapFont.class, parameter);
