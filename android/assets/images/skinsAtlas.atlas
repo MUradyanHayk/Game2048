@@ -1,0 +1,48 @@
+
+skinsAtlas.png
+size: 4096,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+image3x3
+  rotate: false
+  xy: 715, 261
+  size: 710, 710
+  orig: 710, 710
+  offset: 0, 0
+  index: -1
+image4x4
+  rotate: false
+  xy: 1427, 261
+  size: 710, 710
+  orig: 710, 710
+  offset: 0, 0
+  index: -1
+image5x5
+  rotate: false
+  xy: 2139, 261
+  size: 710, 710
+  orig: 710, 710
+  offset: 0, 0
+  index: -1
+image6x6
+  rotate: false
+  xy: 2, 260
+  size: 711, 711
+  orig: 711, 711
+  offset: 0, 0
+  index: -1
+image8x8
+  rotate: false
+  xy: 2851, 262
+  size: 709, 709
+  orig: 709, 709
+  offset: 0, 0
+  index: -1
+number_bg
+  rotate: false
+  xy: 2, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
