@@ -4,6 +4,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
+/**
+ * @Date 01.10.2019
+ *
+ * @Author HaykMuradyan
+ */
+
 public class AudioManager {
     private static AudioManager instance;
     private AssetManager assetManager;

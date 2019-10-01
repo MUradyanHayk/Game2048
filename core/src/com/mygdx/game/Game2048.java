@@ -8,6 +8,12 @@ import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MenuScreen;
 import com.mygdx.game.stages.MenuStage;
 
+/**
+ * @Date 01.10.2019
+ *
+ * @Author HaykMuradyan
+ */
+
 public class Game2048 extends Game {
     private static Game2048 instance;
 
@@ -51,7 +57,7 @@ public class Game2048 extends Game {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.85f, 0.85f, 0.75f, 1);
+        Gdx.gl.glClearColor(0.98f,0.97f,0.95f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render();
     }

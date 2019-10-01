@@ -13,6 +13,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.mygdx.game.utils.ConstInterface;
 
+/**
+ * @Date 01.10.2019
+ *
+ * @Author HaykMuradyan
+ */
+
+
 public class AssetsManager {
     private static AssetsManager instance;
     private AssetManager internalManager;
@@ -30,10 +37,10 @@ public class AssetsManager {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parameter.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_FONT;
-        parameter.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.06f);
-        parameter.fontParameters.color = Color.WHITE;
+        parameter.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.3f);
+        parameter.fontParameters.color = new Color(0.2f, 0.2f, 0.2f, 1);
 
-        internalManager.load( ConstInterface.CONSOLAS_FONT, BitmapFont.class, parameter);
+        internalManager.load(ConstInterface.CONSOLAS_FONT, BitmapFont.class, parameter);
 
         internalManager.finishLoading();
         internalManager.load(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS, TextureAtlas.class);

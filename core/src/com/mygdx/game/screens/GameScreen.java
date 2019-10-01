@@ -6,6 +6,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.stages.GameStage;
 
+/**
+ * @Date 01.10.2019
+ *
+ * @Author HaykMuradyan
+ */
+
 public class GameScreen implements Screen {
     private Viewport viewport;
     private GameStage gameStage;

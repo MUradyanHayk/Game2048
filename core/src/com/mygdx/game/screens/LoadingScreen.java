@@ -9,6 +9,13 @@ import com.mygdx.game.Game2048;
 import com.mygdx.game.managers.AssetsManager;
 import com.mygdx.game.stages.LoadingStage;
 
+/**
+ * @Date 01.10.2019
+ *
+ * @Author HaykMuradyan
+ */
+
+
 public class LoadingScreen implements Screen {
     public static final int ID = 1;
     private static final String LOADING = "LOADING ...  ";
@@ -30,7 +37,7 @@ public class LoadingScreen implements Screen {
         update(delta);
         if (!assetsManager.getInternalManager().update()) {
             int progress = (int) (assetsManager.getExternalManager().getProgress() * 100);
-            loadingStage.getLoadingLabel().setText(LOADING + progress + " %");
+            //loadingStage.getLoadingLabel().setText(LOADING + progress + " %");
             loadingStage.getProgressBar().setValue(progress);
         } else {
             Game2048.getInstance().setScreenById(ID);

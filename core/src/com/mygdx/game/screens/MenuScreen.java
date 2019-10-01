@@ -6,6 +6,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.stages.MenuStage;
 
+/**
+ * @Date 01.10.2019
+ *
+ * @Author HaykMuradyan
+ */
+
 public class MenuScreen implements Screen {
     private MenuStage menuStage;
     private Viewport viewport;

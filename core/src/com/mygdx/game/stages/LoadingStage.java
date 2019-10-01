@@ -2,21 +2,24 @@ package com.mygdx.game.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.managers.AssetsManager;
 import com.mygdx.game.utils.ConstInterface;
 
+/**
+ * @Date 01.10.2019
+ * @Author HaykMuradyan
+ */
+
+
 public class LoadingStage extends Stage {
-    private Skin skin;
     private Label loadingLabel;
     private Label titleLabel;
     private Pixmap pixmap;
@@ -42,12 +45,21 @@ public class LoadingStage extends Stage {
     private void initLabel() {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = assetsManager.get(ConstInterface.CONSOLAS_FONT);
-        style.fontColor = Color.WHITE;
-        loadingLabel = new Label("", style);
-        loadingLabel.setSize(SIZE * 0.5f, SIZE * 0.06f);
-        loadingLabel.setPosition(Gdx.graphics.getWidth() * 0.5f - loadingLabel.getWidth() * 0.5f,
-                Gdx.graphics.getHeight() * 0.5f);
-        addActor(loadingLabel);
+
+//        loadingLabel = new Label("", style);
+//        loadingLabel.setSize(SIZE * 0.5f, SIZE * 0.06f);
+//        loadingLabel.setFontScale(0.3f);
+//        loadingLabel.setPosition(Gdx.graphics.getWidth() * 0.5f - loadingLabel.getWidth() * 0.5f,
+//                Gdx.graphics.getHeight() * 0.5f);
+//        addActor(loadingLabel);
+
+        titleLabel = new Label(ConstInterface.TITLE, style);
+        titleLabel.setAlignment(Align.center);
+        titleLabel.setSize(SIZE * 0.6f, SIZE * 0.3f);
+//        titleLabel.setFontScale(2);
+        titleLabel.setPosition(Gdx.graphics.getWidth() * 0.5f - titleLabel.getWidth() * 0.5f,
+                Gdx.graphics.getHeight() - titleLabel.getHeight() * 3f);
+        addActor(titleLabel);
     }
 
     private void initProgressBar() {
@@ -62,7 +74,7 @@ public class LoadingStage extends Stage {
         progressBar.setAnimateDuration(3);
         progressBar.setSize(SIZE * 0.8f, SIZE * 0.08f);
         progressBar.setPosition(Gdx.graphics.getWidth() * 0.5f - progressBar.getWidth() * 0.5f,
-                Gdx.graphics.getHeight() * 0.35f - progressBar.getHeight() * 0.5f);
+                Gdx.graphics.getHeight() * 0.1f - progressBar.getHeight() * 0.5f);
         addActor(progressBar);
     }
 
@@ -70,9 +82,6 @@ public class LoadingStage extends Stage {
         return progressBar;
     }
 
-    public Label getLoadingLabel() {
-        return loadingLabel;
-    }
 
     @Override
     public void dispose() {
