@@ -6,16 +6,23 @@ filter: Nearest,Nearest
 repeat: none
 arrow_left
   rotate: false
-  xy: 562, 238
+  xy: 3562, 371
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 arrow_right
   rotate: false
-  xy: 3562, 437
+  xy: 562, 238
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+btn_bg
+  rotate: false
+  xy: 3562, 437
+  size: 256, 64
+  orig: 256, 64
   offset: 0, 0
   index: -1
 image2048

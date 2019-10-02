@@ -3,11 +3,8 @@ package com.mygdx.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -26,6 +23,8 @@ import com.mygdx.game.utils.ConstInterface;
  */
 
 public class MenuStage extends Stage {
+    private static final String PLAY = "Play";
+    private static final String LEADER_BOARD = "Leader Board";
     private Image arrowLeftImg;
     private Image arrowRightImg;
     private Image painterImg;
@@ -97,29 +96,29 @@ public class MenuStage extends Stage {
     }
 
     private void initButtons() {
-        Image playImg = new Image(skin.getDrawable(ConstInterface.NUMBER_BG));
+        Image playImg = new Image(skin.getDrawable(ConstInterface.BTN_BG));
         playImg.setPosition(0, 0);
         playImg.addAction(Actions.color(new Color(0.96f, 0.52f, 0.38f, 1)));
 
-        Image recordsImg = new Image(skin.getDrawable(ConstInterface.NUMBER_BG));
+        Image recordsImg = new Image(skin.getDrawable(ConstInterface.BTN_BG));
         recordsImg.setPosition(0, 0);
         recordsImg.addAction(Actions.color(new Color(0.56f, 0.48f, 0.39f, 1)));
 
         TextButton.TextButtonStyle playBtnStyle = new TextButton.TextButtonStyle();
         playBtnStyle.fontColor = Color.WHITE;
         playBtnStyle.font = assetManager.get(ConstInterface.CONSOLAS_SMALL_FONT);
-        playBtn = new TextButton("Play", playBtnStyle);
+        playBtn = new TextButton(PLAY, playBtnStyle);
         playBtn.getLabel().setAlignment(Align.center);
-        playBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getWidth() * 0.13f);
+        playBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getHeight() * 0.08f);
         playBtn.addActorAt(0, playImg);
         playImg.setSize(playBtn.getWidth(), playBtn.getHeight());
 
         TextButton.TextButtonStyle recordsBtnStyle = new TextButton.TextButtonStyle();
         recordsBtnStyle.fontColor = Color.WHITE;
         recordsBtnStyle.font = assetManager.get(ConstInterface.CONSOLAS_SMALL_FONT);
-        recordsBtn = new TextButton("Leader Board", playBtnStyle);
+        recordsBtn = new TextButton(LEADER_BOARD, playBtnStyle);
         recordsBtn.getLabel().setAlignment(Align.center);
-        recordsBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getWidth() * 0.13f);
+        recordsBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getHeight() * 0.08f);
         recordsBtn.addActorAt(0, recordsImg);
         recordsImg.setSize(recordsBtn.getWidth(), recordsBtn.getHeight());
     }
