@@ -2,7 +2,6 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game2048;
@@ -22,7 +21,7 @@ public class LoadingScreen implements Screen {
     private LoadingStage loadingStage;
     private Viewport viewport;
     private AssetsManager assetsManager;
-    private String loadingText;
+    int progress;
 
 
     @Override
@@ -34,10 +33,9 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        update(delta);
         if (!assetsManager.getInternalManager().update()) {
-            int progress = (int) (assetsManager.getExternalManager().getProgress() * 100);
-            //loadingStage.getLoadingLabel().setText(LOADING + progress + " %");
+            update(delta);
+            progress = (int) (assetsManager.getExternalManager().getProgress() * 100);
             loadingStage.getProgressBar().setValue(progress);
         } else {
             Game2048.getInstance().setScreenById(ID);
@@ -72,7 +70,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        loadingStage.dispose();
     }
 
     public LoadingStage getLoadingStage() {

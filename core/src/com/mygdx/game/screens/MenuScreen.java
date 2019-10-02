@@ -55,7 +55,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        menuStage.dispose();
     }
 
     public MenuStage getMenuStage() {

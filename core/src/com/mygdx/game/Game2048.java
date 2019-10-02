@@ -42,8 +42,6 @@ public class Game2048 extends Game {
                 menuScreen.dispose();
                 menuScreen = null;
                 break;
-            case 3:
-                break;
         }
     }
 

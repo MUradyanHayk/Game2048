@@ -15,7 +15,6 @@ import com.mygdx.game.utils.ConstInterface;
 
 /**
  * @Date 01.10.2019
- *
  * @Author HaykMuradyan
  */
 
@@ -35,14 +34,23 @@ public class AssetsManager {
         internalManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         internalManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter parameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        parameter.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_FONT;
-        parameter.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.3f);
-        parameter.fontParameters.color = new Color(0.2f, 0.2f, 0.2f, 1);
 
-        internalManager.load(ConstInterface.CONSOLAS_FONT, BitmapFont.class, parameter);
+        FreetypeFontLoader.FreeTypeFontLoaderParameter paramLarge = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        paramLarge.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_LARGE_FONT;
+        paramLarge.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.32f);
+        paramLarge.fontParameters.color = Color.WHITE;
+
+        internalManager.load(ConstInterface.CONSOLAS_LARGE_FONT, BitmapFont.class, paramLarge);
 
         internalManager.finishLoading();
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter paramSmall = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        paramSmall.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_SMALL_FONT;
+        paramSmall.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.06f);
+        paramSmall.fontParameters.color = Color.WHITE;
+
+        internalManager.load(ConstInterface.CONSOLAS_SMALL_FONT, BitmapFont.class, paramSmall);
+
         internalManager.load(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS, TextureAtlas.class);
     }
 

@@ -2,6 +2,7 @@ package com.mygdx.game.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,7 +21,6 @@ import com.mygdx.game.utils.ConstInterface;
 
 
 public class LoadingStage extends Stage {
-    private Label loadingLabel;
     private Label titleLabel;
     private Pixmap pixmap;
     private ProgressBar progressBar;
@@ -43,20 +43,12 @@ public class LoadingStage extends Stage {
     }
 
     private void initLabel() {
-        Label.LabelStyle style = new Label.LabelStyle();
-        style.font = assetsManager.get(ConstInterface.CONSOLAS_FONT);
-
-//        loadingLabel = new Label("", style);
-//        loadingLabel.setSize(SIZE * 0.5f, SIZE * 0.06f);
-//        loadingLabel.setFontScale(0.3f);
-//        loadingLabel.setPosition(Gdx.graphics.getWidth() * 0.5f - loadingLabel.getWidth() * 0.5f,
-//                Gdx.graphics.getHeight() * 0.5f);
-//        addActor(loadingLabel);
-
-        titleLabel = new Label(ConstInterface.TITLE, style);
+        Label.LabelStyle styleLarge = new Label.LabelStyle();
+        styleLarge.font = assetsManager.get(ConstInterface.CONSOLAS_LARGE_FONT);
+        styleLarge.fontColor = new Color(0.2f, 0.2f, 0.2f, 1);
+        titleLabel = new Label(ConstInterface.TITLE, styleLarge);
         titleLabel.setAlignment(Align.center);
         titleLabel.setSize(SIZE * 0.6f, SIZE * 0.3f);
-//        titleLabel.setFontScale(2);
         titleLabel.setPosition(Gdx.graphics.getWidth() * 0.5f - titleLabel.getWidth() * 0.5f,
                 Gdx.graphics.getHeight() - titleLabel.getHeight() * 3f);
         addActor(titleLabel);
@@ -71,8 +63,8 @@ public class LoadingStage extends Stage {
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle(null, knob.getDrawable());
         progressBarStyle.knobBefore = progressBarStyle.knob;
         progressBar = new ProgressBar(1, 100, 1, false, progressBarStyle);
-        progressBar.setAnimateDuration(3);
-        progressBar.setSize(SIZE * 0.8f, SIZE * 0.08f);
+        //progressBar.setAnimateDuration(3.5f);
+        progressBar.setSize(SIZE * 0.85f, SIZE * 0.08f);
         progressBar.setPosition(Gdx.graphics.getWidth() * 0.5f - progressBar.getWidth() * 0.5f,
                 Gdx.graphics.getHeight() * 0.1f - progressBar.getHeight() * 0.5f);
         addActor(progressBar);
@@ -81,7 +73,6 @@ public class LoadingStage extends Stage {
     public ProgressBar getProgressBar() {
         return progressBar;
     }
-
 
     @Override
     public void dispose() {
