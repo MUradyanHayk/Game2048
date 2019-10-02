@@ -26,6 +26,7 @@ public interface ConstInterface {
     String IMAGE_8x8 = "image8x8";
     String ARROW_LEFT = "arrow_left";
     String ARROW_RIGHT = "arrow_right";
+    String NUMBER_BG = "number_bg";
 
     //fonts
     String CONSOLAS_LARGE_FONT = "Consolas_large.ttf";
