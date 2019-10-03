@@ -14,12 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game2048;
 import com.mygdx.game.managers.AssetsManager;
+import com.mygdx.game.managers.DataManager;
+import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.utils.ConstInterface;
+import com.mygdx.game.utils.GameData;
 
 /**
  * @Date 01.10.2019
@@ -27,7 +29,6 @@ import com.mygdx.game.utils.ConstInterface;
  */
 
 public class MenuStage extends Stage {
-    private static final int ID = 2;
     private static final String PLAY = "Play";
     private static final String LEADER_BOARD = "Leader Board";
     private Image arrowLeftImg;
@@ -40,7 +41,9 @@ public class MenuStage extends Stage {
     private Skin skin;
     private Table table;
     private AssetManager assetManager;
+    private DataManager dataManager;
     private int count = 0;
+    private GameData data;
 
     public MenuStage(final Viewport viewport) {
         super(viewport);
@@ -49,8 +52,8 @@ public class MenuStage extends Stage {
 
     private void init() {
         initManagers();
-        initImages();
         initTextLabel();
+        initImages();
         initButtons();
         initTable();
     }
@@ -59,6 +62,8 @@ public class MenuStage extends Stage {
         assetManager = AssetsManager.getInstance().getInternalManager();
         skin = new Skin();
         skin.addRegions(assetManager.get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
+        dataManager = DataManager.getInstance();
+        data = new GameData();
     }
 
     private void initTable() {
@@ -96,22 +101,24 @@ public class MenuStage extends Stage {
     private void initImages() {
         painterImg = new Image(skin.getDrawable(ConstInterface.PAINTER));
         boardImg = new Image(skin.getDrawable(ConstInterface.IMAGE_3x3));
+        setLevel(dataManager.getData().getCurrentLevel());
 
         arrowLeftImg = new Image(skin.getDrawable(ConstInterface.ARROW_LEFT));
         arrowRightImg = new Image(skin.getDrawable(ConstInterface.ARROW_RIGHT));
 
-        arrowRightImg.addListener(new ClickListener() {
+        arrowRightImg.addListener(new ActorGestureListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                click(1);
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setLevel(1);
                 System.out.println(textLabel.getText());
             }
         });
 
-        arrowLeftImg.addListener(new ClickListener() {
+        arrowLeftImg.addListener(new ActorGestureListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                click(-1);
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setLevel(-1);
+                System.out.println(textLabel.getText());
             }
         });
     }
@@ -140,13 +147,12 @@ public class MenuStage extends Stage {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 playImg.addAction(Actions.sequence(Actions.scaleTo(1.07f, 1.07f, 0.12f)
                         , Actions.sequence(Actions.scaleTo(1f, 1f, 0.12f))));
-
                 Gdx.app.log("TAG", "clicked");
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Game2048.getInstance().setScreenById(ID);
+                Game2048.getInstance().setScreenById(GameScreen.ID);
             }
         });
 
@@ -169,8 +175,8 @@ public class MenuStage extends Stage {
         });
     }
 
-    private void click(int x) {
-        count += x;
+    private void setLevel(int level) {
+        count += level;
         count = count > 4 ? 0 : count;
         count = count < 0 ? 4 : count;
         switch (count) {
@@ -195,5 +201,7 @@ public class MenuStage extends Stage {
                 textLabel.setText(ConstInterface.N_8x8);
                 break;
         }
+        data.setCurrentLevel(count);
+        dataManager.setData(data);
     }
 }

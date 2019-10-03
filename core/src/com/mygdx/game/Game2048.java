@@ -10,7 +10,6 @@ import com.mygdx.game.stages.MenuStage;
 
 /**
  * @Date 01.10.2019
- *
  * @Author HaykMuradyan
  */
 
@@ -27,19 +26,25 @@ public class Game2048 extends Game {
 
     public void setScreenById(int id) {
         switch (id) {
+            case 0:
+                break;
             case 1:
                 menuScreen = new MenuScreen();
                 setScreen(menuScreen);
                 Gdx.input.setInputProcessor(menuScreen.getMenuStage());
-                loadingScreen.dispose();
-                loadingScreen = null;
+                if (loadingScreen != null) {
+                    loadingScreen.dispose();
+                    loadingScreen = null;
+                }
+                if (gameScreen != null) {
+                    gameScreen.dispose();
+                    gameScreen = null;
+                }
                 break;
             case 2:
                 gameScreen = new GameScreen();
                 setScreen(gameScreen);
                 Gdx.input.setInputProcessor(gameScreen.getGameStage());
-                menuScreen.dispose();
-                menuScreen = null;
                 break;
         }
     }
@@ -54,7 +59,7 @@ public class Game2048 extends Game {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.98f,0.97f,0.95f, 1);
+        Gdx.gl.glClearColor(0.98f, 0.97f, 0.95f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render();
     }

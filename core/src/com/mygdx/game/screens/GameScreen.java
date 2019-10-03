@@ -1,18 +1,20 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Game2048;
 import com.mygdx.game.stages.GameStage;
 
 /**
  * @Date 01.10.2019
- *
  * @Author HaykMuradyan
  */
 
 public class GameScreen implements Screen {
+    public static final int ID = 2;
     private Viewport viewport;
     private GameStage gameStage;
 
@@ -25,6 +27,11 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
+        Gdx.input.setCatchBackKey(true);
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+            Game2048.getInstance().setScreenById(MenuScreen.ID);
+            Gdx.input.setCatchBackKey(false);
+        }
     }
 
     private void update(float delta) {

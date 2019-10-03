@@ -8,11 +8,11 @@ import com.mygdx.game.stages.MenuStage;
 
 /**
  * @Date 01.10.2019
- *
  * @Author HaykMuradyan
  */
 
 public class MenuScreen implements Screen {
+    public static final int ID = 1;
     private MenuStage menuStage;
     private Viewport viewport;
 

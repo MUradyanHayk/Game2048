@@ -13,7 +13,7 @@ import java.nio.file.spi.FileTypeDetector;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 320;
+        config.width = 350;
         config.height = 600;
         config.title = ConstInterface.TITLE;
         config.addIcon(ConstInterface.IMAGES_PATH + ConstInterface.ICON, Files.FileType.Internal);

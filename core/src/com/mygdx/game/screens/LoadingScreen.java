@@ -16,7 +16,7 @@ import com.mygdx.game.stages.LoadingStage;
 
 
 public class LoadingScreen implements Screen {
-    public static final int ID = 1;
+    public static final int ID = 0;
     private static final String LOADING = "LOADING ...  ";
     private LoadingStage loadingStage;
     private Viewport viewport;
@@ -38,7 +38,7 @@ public class LoadingScreen implements Screen {
             progress = (int) (assetsManager.getExternalManager().getProgress() * 100);
             loadingStage.getProgressBar().setValue(progress);
         } else {
-            Game2048.getInstance().setScreenById(ID);
+            Game2048.getInstance().setScreenById(MenuScreen.ID);
         }
     }
 
