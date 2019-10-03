@@ -1,7 +1,6 @@
 package com.mygdx.game.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +23,7 @@ public class LoadingStage extends Stage {
     private Label titleLabel;
     private Pixmap pixmap;
     private ProgressBar progressBar;
-    private AssetManager assetsManager;
+    private AssetsManager assetsManager;
     private final int SIZE = Gdx.graphics.getWidth();
 
     public LoadingStage(final Viewport viewport) {
@@ -39,12 +38,12 @@ public class LoadingStage extends Stage {
     }
 
     private void initManagers() {
-        assetsManager = AssetsManager.getInstance().getInternalManager();
+        assetsManager = AssetsManager.getInstance();
     }
 
     private void initLabel() {
         Label.LabelStyle styleLarge = new Label.LabelStyle();
-        styleLarge.font = assetsManager.get(ConstInterface.CONSOLAS_LARGE_FONT);
+        styleLarge.font = assetsManager.getInternalManager().get(ConstInterface.CONSOLAS_LARGE_FONT);
         styleLarge.fontColor = new Color(0.2f, 0.2f, 0.2f, 1);
         titleLabel = new Label(ConstInterface.TITLE, styleLarge);
         titleLabel.setAlignment(Align.center);

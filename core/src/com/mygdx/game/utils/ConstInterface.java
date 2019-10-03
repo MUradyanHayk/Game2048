@@ -31,6 +31,7 @@ public interface ConstInterface {
 
     //fonts
     String CONSOLAS_LARGE_FONT = "Consolas_large.ttf";
+    String CONSOLAS_MIDDLE_FONT = "Consolas_middle.ttf";
     String CONSOLAS_SMALL_FONT = "Consolas_small.ttf";
 
     //strings

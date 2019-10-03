@@ -50,10 +50,17 @@ public class AssetsManager {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter paramSmall = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         paramSmall.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_SMALL_FONT;
-        paramSmall.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.06f);
+        paramSmall.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.035f);
         paramSmall.fontParameters.color = Color.WHITE;
 
         internalManager.load(ConstInterface.CONSOLAS_SMALL_FONT, BitmapFont.class, paramSmall);
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter paramMiddle = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        paramMiddle.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_MIDDLE_FONT;
+        paramMiddle.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.06f);
+        paramMiddle.fontParameters.color = Color.WHITE;
+
+        internalManager.load(ConstInterface.CONSOLAS_MIDDLE_FONT, BitmapFont.class, paramMiddle);
 
         internalManager.load(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS, TextureAtlas.class);
     }

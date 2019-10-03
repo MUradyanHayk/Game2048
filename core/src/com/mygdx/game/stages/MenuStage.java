@@ -93,7 +93,7 @@ public class MenuStage extends Stage {
     private void initTextLabel() {
         Label.LabelStyle style = new Label.LabelStyle();
         style.fontColor = Color.BLACK;
-        style.font = assetManager.get(ConstInterface.CONSOLAS_SMALL_FONT);
+        style.font = assetManager.get(ConstInterface.CONSOLAS_MIDDLE_FONT);
         textLabel = new Label(ConstInterface.N_3x3, style);
         textLabel.setAlignment(Align.center);
     }
@@ -101,7 +101,7 @@ public class MenuStage extends Stage {
     private void initImages() {
         painterImg = new Image(skin.getDrawable(ConstInterface.PAINTER));
         boardImg = new Image(skin.getDrawable(ConstInterface.IMAGE_3x3));
-        setLevel(dataManager.getData().getCurrentLevel());
+        setLevel(dataManager.getData().getLevel());
 
         arrowLeftImg = new Image(skin.getDrawable(ConstInterface.ARROW_LEFT));
         arrowRightImg = new Image(skin.getDrawable(ConstInterface.ARROW_RIGHT));
@@ -135,7 +135,7 @@ public class MenuStage extends Stage {
 
         TextButton.TextButtonStyle playBtnStyle = new TextButton.TextButtonStyle();
         playBtnStyle.fontColor = Color.WHITE;
-        playBtnStyle.font = assetManager.get(ConstInterface.CONSOLAS_SMALL_FONT);
+        playBtnStyle.font = assetManager.get(ConstInterface.CONSOLAS_MIDDLE_FONT);
         playBtn = new TextButton(PLAY, playBtnStyle);
         playBtn.getLabel().setAlignment(Align.center);
         playBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getHeight() * 0.08f);
@@ -201,7 +201,7 @@ public class MenuStage extends Stage {
                 textLabel.setText(ConstInterface.N_8x8);
                 break;
         }
-        data.setCurrentLevel(count);
+        data.setLevel(count);
         dataManager.setData(data);
     }
 }
