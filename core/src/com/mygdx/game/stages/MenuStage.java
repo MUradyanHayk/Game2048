@@ -3,6 +3,7 @@ package com.mygdx.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -12,8 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Game2048;
 import com.mygdx.game.managers.AssetsManager;
 import com.mygdx.game.utils.ConstInterface;
 
@@ -23,6 +27,7 @@ import com.mygdx.game.utils.ConstInterface;
  */
 
 public class MenuStage extends Stage {
+    private static final int ID = 2;
     private static final String PLAY = "Play";
     private static final String LEADER_BOARD = "Leader Board";
     private Image arrowLeftImg;
@@ -35,6 +40,7 @@ public class MenuStage extends Stage {
     private Skin skin;
     private Table table;
     private AssetManager assetManager;
+    private int count = 0;
 
     public MenuStage(final Viewport viewport) {
         super(viewport);
@@ -83,7 +89,7 @@ public class MenuStage extends Stage {
         Label.LabelStyle style = new Label.LabelStyle();
         style.fontColor = Color.BLACK;
         style.font = assetManager.get(ConstInterface.CONSOLAS_SMALL_FONT);
-        textLabel = new Label("3x3", style);
+        textLabel = new Label(ConstInterface.N_3x3, style);
         textLabel.setAlignment(Align.center);
     }
 
@@ -93,12 +99,28 @@ public class MenuStage extends Stage {
 
         arrowLeftImg = new Image(skin.getDrawable(ConstInterface.ARROW_LEFT));
         arrowRightImg = new Image(skin.getDrawable(ConstInterface.ARROW_RIGHT));
+
+        arrowRightImg.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                click(1);
+                System.out.println(textLabel.getText());
+            }
+        });
+
+        arrowLeftImg.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                click(-1);
+            }
+        });
     }
 
     private void initButtons() {
         Image playImg = new Image(skin.getDrawable(ConstInterface.BTN_BG));
         playImg.setPosition(0, 0);
         playImg.addAction(Actions.color(new Color(0.96f, 0.52f, 0.38f, 1)));
+
 
         Image recordsImg = new Image(skin.getDrawable(ConstInterface.BTN_BG));
         recordsImg.setPosition(0, 0);
@@ -112,6 +134,21 @@ public class MenuStage extends Stage {
         playBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getHeight() * 0.08f);
         playBtn.addActorAt(0, playImg);
         playImg.setSize(playBtn.getWidth(), playBtn.getHeight());
+        playImg.setOrigin(playImg.getWidth() * 0.5f, playImg.getHeight() * 0.5f);
+        playBtn.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                playImg.addAction(Actions.sequence(Actions.scaleTo(1.07f, 1.07f, 0.12f)
+                        , Actions.sequence(Actions.scaleTo(1f, 1f, 0.12f))));
+
+                Gdx.app.log("TAG", "clicked");
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Game2048.getInstance().setScreenById(ID);
+            }
+        });
 
         TextButton.TextButtonStyle recordsBtnStyle = new TextButton.TextButtonStyle();
         recordsBtnStyle.fontColor = Color.WHITE;
@@ -121,5 +158,42 @@ public class MenuStage extends Stage {
         recordsBtn.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getHeight() * 0.08f);
         recordsBtn.addActorAt(0, recordsImg);
         recordsImg.setSize(recordsBtn.getWidth(), recordsBtn.getHeight());
+        recordsImg.setOrigin(recordsImg.getWidth() * 0.5f, recordsImg.getHeight() * 0.5f);
+        recordsBtn.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                recordsImg.addAction(Actions.sequence(Actions.scaleTo(1.07f, 1.07f, 0.12f)
+                        , Actions.sequence(Actions.scaleTo(1f, 1f, 0.12f))));
+                Gdx.app.log("TAG", "clicked");
+            }
+        });
+    }
+
+    private void click(int x) {
+        count += x;
+        count = count > 4 ? 0 : count;
+        count = count < 0 ? 4 : count;
+        switch (count) {
+            case 0:
+                boardImg.setDrawable(skin.getDrawable(ConstInterface.IMAGE_3x3));
+                textLabel.setText(ConstInterface.N_3x3);
+                break;
+            case 1:
+                boardImg.setDrawable(skin.getDrawable(ConstInterface.IMAGE_4x4));
+                textLabel.setText(ConstInterface.N_4x4);
+                break;
+            case 2:
+                boardImg.setDrawable(skin.getDrawable(ConstInterface.IMAGE_5x5));
+                textLabel.setText(ConstInterface.N_5x5);
+                break;
+            case 3:
+                boardImg.setDrawable(skin.getDrawable(ConstInterface.IMAGE_6x6));
+                textLabel.setText(ConstInterface.N_6x6);
+                break;
+            case 4:
+                boardImg.setDrawable(skin.getDrawable(ConstInterface.IMAGE_8x8));
+                textLabel.setText(ConstInterface.N_8x8);
+                break;
+        }
     }
 }

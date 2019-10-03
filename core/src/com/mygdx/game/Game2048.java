@@ -33,7 +33,6 @@ public class Game2048 extends Game {
                 Gdx.input.setInputProcessor(menuScreen.getMenuStage());
                 loadingScreen.dispose();
                 loadingScreen = null;
-
                 break;
             case 2:
                 gameScreen = new GameScreen();
