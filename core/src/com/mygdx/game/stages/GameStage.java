@@ -50,7 +50,7 @@ public class GameStage extends Stage {
     }
 
     private void initBoardGroup() {
-        boardGroup = new BoardGroup();
+        boardGroup = new BoardGroup(dataManager.getData().getLevel());
     }
 
     private void initLabels() {
@@ -111,5 +111,9 @@ public class GameStage extends Stage {
         Image restartImg = new Image(skin.getDrawable(ConstInterface.RESTART));
         restartImg.setSize(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getWidth() * 0.05f);
         restartBtn.add(restartImg).size(restartImg.getWidth(), restartImg.getHeight());
+    }
+
+    public BoardGroup getBoardGroup() {
+        return boardGroup;
     }
 }

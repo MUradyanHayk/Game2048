@@ -2,11 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MenuScreen;
 import com.mygdx.game.stages.MenuStage;
+import com.mygdx.game.utils.BoardGroup;
 
 /**
  * @Date 01.10.2019
@@ -19,6 +22,7 @@ public class Game2048 extends Game {
     private LoadingScreen loadingScreen;
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
+    private BoardGroup boardGroup;
 
     private Game2048() {
 
@@ -44,7 +48,7 @@ public class Game2048 extends Game {
             case 2:
                 gameScreen = new GameScreen();
                 setScreen(gameScreen);
-                Gdx.input.setInputProcessor(gameScreen.getGameStage());
+                Gdx.input.setInputProcessor(new InputMultiplexer(gameScreen.getGameStage(), gameScreen.getGameStage().getBoardGroup().getMyGestureAdapter()));
                 break;
         }
     }
