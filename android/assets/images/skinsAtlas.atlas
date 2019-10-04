@@ -25,6 +25,13 @@ btn_bg
   orig: 2048, 512
   offset: 0, 0
   index: -1
+cancel
+  rotate: false
+  xy: 2653, 202
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 image2048
   rotate: false
   xy: 2139, 1125
@@ -69,14 +76,28 @@ image8x8
   index: -1
 number_bg
   rotate: false
-  xy: 2139, 867
-  size: 256, 256
-  orig: 256, 256
+  xy: 3167, 303
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1
 painter
   rotate: false
   xy: 2052, 1427
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+restart
+  rotate: false
+  xy: 2139, 611
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+white_rect
+  rotate: false
+  xy: 2653, 716
   size: 512, 512
   orig: 512, 512
   offset: 0, 0

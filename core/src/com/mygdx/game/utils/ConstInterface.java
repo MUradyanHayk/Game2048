@@ -28,6 +28,9 @@ public interface ConstInterface {
     String ARROW_RIGHT = "arrow_right";
     String NUMBER_BG = "number_bg";
     String BTN_BG = "btn_bg";
+    String RESTART = "restart";
+    String CANCEL = "cancel";
+    String WHITE_RECT = "white_rect";
 
     //fonts
     String CONSOLAS_LARGE_FONT = "Consolas_large.ttf";
