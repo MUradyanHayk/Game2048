@@ -69,16 +69,20 @@ public class GameStage extends Stage {
         table = new Table();
         table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         table.top();
-        table.add(horizontalGroup1).size(horizontalGroup1.getWidth(), horizontalGroup1.getHeight());
+//        table.add(horizontalGroup1).size(horizontalGroup1.getWidth(), horizontalGroup1.getHeight()).expandX();
+        table.add(titleLabel).size(titleLabel.getWidth(), titleLabel.getHeight()).left().expandX();
+        table.add(countTextBtn).size(countTextBtn.getWidth(), countTextBtn.getHeight()).right();
+        table.add(recordTextBtn).size(recordTextBtn.getWidth(), recordTextBtn.getHeight()).right();
         addActor(table);
+        table.debugAll();
     }
 
     private void initHorizontalGroups() {
         horizontalGroup1 = new HorizontalGroup();
         horizontalGroup1.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() * 0.15f);
-        horizontalGroup1.addActor(new Container<>(titleLabel).size(titleLabel.getWidth(), titleLabel.getHeight()));
-        horizontalGroup1.addActor(new Container<>(countTextBtn).size(countTextBtn.getWidth(), countTextBtn.getHeight()));
-        horizontalGroup1.addActor(new Container<>(recordTextBtn).size(recordTextBtn.getWidth(), recordTextBtn.getHeight()));
+        horizontalGroup1.addActor(new Container<>(titleLabel).size(titleLabel.getWidth(), titleLabel.getHeight()).left());
+        horizontalGroup1.addActor(new Container<>(countTextBtn).size(countTextBtn.getWidth(), countTextBtn.getHeight()).right());
+        horizontalGroup1.addActor(new Container<>(recordTextBtn).size(recordTextBtn.getWidth(), recordTextBtn.getHeight()).right());
 
         horizontalGroup2 = new HorizontalGroup();
 
@@ -91,8 +95,11 @@ public class GameStage extends Stage {
         textButtonStyle.fontColor = Color.BLACK;
 
         countTextBtn = new TextButton("count", textButtonStyle);
-        countTextBtn.setSize(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getWidth() * 0.1f);
+        countTextBtn.setSize(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getWidth() * 0.15f);
+        countTextBtn.getLabel().setAlignment(Align.top);
+
         recordTextBtn = new TextButton("record", textButtonStyle);
-        recordTextBtn.setSize(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getWidth() * 0.1f);
+        recordTextBtn.setSize(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getWidth() * 0.15f);
+        recordTextBtn.getLabel().setAlignment(Align.top);
     }
 }

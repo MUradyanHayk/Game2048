@@ -35,11 +35,12 @@ public interface ConstInterface {
     String CONSOLAS_SMALL_FONT = "Consolas_small.ttf";
 
     //strings
-    String N_3x3 = "3 x 3";
-    String N_4x4 = "4 x 4";
-    String N_5x5 = "5 x 5";
-    String N_6x6 = "6 x 6";
-    String N_8x8 = "8 x 8";
+    String N_3x3 = "3 " + ConstInterface.MULTIPLE + " 3";
+    String N_4x4 = "4 " + ConstInterface.MULTIPLE + " 4";
+    String N_5x5 = "5 " + ConstInterface.MULTIPLE + " 5";
+    String N_6x6 = "6 " + ConstInterface.MULTIPLE + " 6";
+    String N_8x8 = "8 " + ConstInterface.MULTIPLE + " 8";
 
-
+    //unicode symbols
+    String MULTIPLE = "\u00D7";
 }

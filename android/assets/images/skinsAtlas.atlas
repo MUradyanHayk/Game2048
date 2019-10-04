@@ -6,77 +6,77 @@ filter: Nearest,Nearest
 repeat: none
 arrow_left
   rotate: false
-  xy: 2139, 1125
-  size: 64, 64
-  orig: 64, 64
+  xy: 3277, 817
+  size: 560, 560
+  orig: 560, 560
   offset: 0, 0
   index: -1
 arrow_right
   rotate: false
-  xy: 2, 2
-  size: 64, 64
-  orig: 64, 64
+  xy: 3277, 1379
+  size: 560, 560
+  orig: 560, 560
   offset: 0, 0
   index: -1
 btn_bg
   rotate: false
-  xy: 2, 1493
+  xy: 2, 1427
   size: 2048, 512
   orig: 2048, 512
   offset: 0, 0
   index: -1
 image2048
   rotate: false
-  xy: 2139, 1191
+  xy: 2139, 1125
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 image3x3
   rotate: false
-  xy: 2, 68
+  xy: 2, 2
   size: 710, 710
   orig: 710, 710
   offset: 0, 0
   index: -1
 image4x4
   rotate: false
-  xy: 715, 781
+  xy: 715, 715
   size: 710, 710
   orig: 710, 710
   offset: 0, 0
   index: -1
 image5x5
   rotate: false
-  xy: 1427, 781
+  xy: 1427, 715
   size: 710, 710
   orig: 710, 710
   offset: 0, 0
   index: -1
 image6x6
   rotate: false
-  xy: 2, 780
+  xy: 2, 714
   size: 711, 711
   orig: 711, 711
   offset: 0, 0
   index: -1
 image8x8
   rotate: false
-  xy: 2566, 1296
+  xy: 2566, 1230
   size: 709, 709
   orig: 709, 709
   offset: 0, 0
   index: -1
 number_bg
   rotate: false
-  xy: 3277, 1749
+  xy: 2139, 867
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 painter
   rotate: false
-  xy: 2052, 1493
+  xy: 2052, 1427
   size: 512, 512
   orig: 512, 512
   offset: 0, 0

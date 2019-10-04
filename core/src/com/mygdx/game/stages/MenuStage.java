@@ -69,9 +69,9 @@ public class MenuStage extends Stage {
     private void initTable() {
         HorizontalGroup horizontalGroup = new HorizontalGroup();
         horizontalGroup.setSize(Gdx.graphics.getWidth() * 0.65f, Gdx.graphics.getWidth() * 0.08f);
-        horizontalGroup.addActor(new Container<>(arrowLeftImg).size(horizontalGroup.getHeight()));
+        horizontalGroup.addActor(new Container<>(arrowLeftImg).size(horizontalGroup.getHeight()*1.1f,horizontalGroup.getHeight()*1.1f));
         horizontalGroup.addActor(new Container<>(textLabel).size(Gdx.graphics.getWidth() * 0.18f));
-        horizontalGroup.addActor(new Container<>(arrowRightImg).size(horizontalGroup.getHeight()));
+        horizontalGroup.addActor(new Container<>(arrowRightImg).size(horizontalGroup.getHeight()*1.1f,horizontalGroup.getHeight()*1.1f));
         horizontalGroup.space(horizontalGroup.getWidth() * 0.18f);
         horizontalGroup.center();
         table = new Table();

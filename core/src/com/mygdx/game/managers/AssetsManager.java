@@ -59,6 +59,7 @@ public class AssetsManager {
         paramMiddle.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_MIDDLE_FONT;
         paramMiddle.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.06f);
         paramMiddle.fontParameters.color = Color.WHITE;
+        paramMiddle.fontParameters.characters += ConstInterface.MULTIPLE;
 
         internalManager.load(ConstInterface.CONSOLAS_MIDDLE_FONT, BitmapFont.class, paramMiddle);
 

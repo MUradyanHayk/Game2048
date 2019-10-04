@@ -16,7 +16,7 @@ public class DesktopLauncher {
         config.width = 350;
         config.height = 600;
         config.title = ConstInterface.TITLE;
-        config.addIcon(ConstInterface.IMAGES_PATH + ConstInterface.ICON, Files.FileType.Internal);
+        config.addIcon( "badlogic.jpg", Files.FileType.Internal);
         new LwjglApplication(Game2048.getInstance(), config);
     }
 }
