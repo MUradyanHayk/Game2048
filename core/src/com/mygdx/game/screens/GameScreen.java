@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         update(delta);
         Gdx.input.setCatchBackKey(true);
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
             Game2048.getInstance().setScreenById(MenuScreen.ID);
             Gdx.input.setCatchBackKey(false);
         }

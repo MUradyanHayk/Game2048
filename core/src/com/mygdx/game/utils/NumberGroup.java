@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.managers.AssetsManager;
 
 public class NumberGroup extends Group {
@@ -13,18 +14,19 @@ public class NumberGroup extends Group {
     private Image numberImg;
     private Label numberLabel;
     private float size;
+    private Label.LabelStyle labelStyle;
 
     private String text;
 
     public NumberGroup(float size) {
-        this("", 0, 0, size);
+        this("", size);
     }
 
-    public NumberGroup(String text, float x, float y, float size) {
+    public NumberGroup(String text, float size) {
         this.text = text;
         this.size = size;
-        this.setPosition(x, y);
         init();
+        setBgColor();
     }
 
     private void init() {
@@ -38,14 +40,29 @@ public class NumberGroup extends Group {
                 getHeight() * 0.5f - numberImg.getHeight() * 0.5f);
         numberImg.addAction(Actions.color(new Color(0.84f, 0.81f, 0.77f, 1)));
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle = new Label.LabelStyle();
         labelStyle.font = AssetsManager.getInstance().getInternalManager().get(ConstInterface.CONSOLAS_MIDDLE_FONT);
         labelStyle.fontColor = Color.BLACK;
         numberLabel = new Label(text, labelStyle);
+        numberLabel.setAlignment(Align.center);
+        numberLabel.setSize(getWidth(), getHeight());
+        numberLabel.setPosition(getWidth() * 0.5f - numberLabel.getWidth() * 0.5f, getHeight() * 0.5f - numberLabel.getHeight() * 0.5f);
     }
 
     public void addNumber() {
         addActor(numberImg);
+        addActor(numberLabel);
+    }
+
+    private void setBgColor() {
+        switch (text) {
+            case "":
+                break;
+            case "2":
+                numberImg.addAction(Actions.color(new Color(0.93f, 0.89f, 0.86f, 1)));
+                labelStyle.fontColor = new Color(0.46f, 0.42f, 0.38f, 1);
+                break;
+        }
     }
 
     public Image getNumberImg() {

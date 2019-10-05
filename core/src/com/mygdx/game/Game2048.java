@@ -22,7 +22,6 @@ public class Game2048 extends Game {
     private LoadingScreen loadingScreen;
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
-    private BoardGroup boardGroup;
 
     private Game2048() {
 
