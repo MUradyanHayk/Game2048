@@ -27,6 +27,7 @@ public class AssetsManager {
     private static AssetsManager instance;
     private AssetManager internalManager;
     private AssetManager externalManager;
+    private FreetypeFontLoader.FreeTypeFontLoaderParameter paramLarge;
 
     private AssetsManager() {
         init();
@@ -38,7 +39,7 @@ public class AssetsManager {
         internalManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         internalManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter paramLarge = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        paramLarge = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
 
         paramLarge.fontFileName = ConstInterface.FONTS_PATH + ConstInterface.CONSOLAS_LARGE_FONT;
         paramLarge.fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.32f);
@@ -85,5 +86,9 @@ public class AssetsManager {
             instance = new AssetsManager();
         }
         return instance;
+    }
+
+    public FreetypeFontLoader.FreeTypeFontLoaderParameter getParamLarge() {
+        return paramLarge;
     }
 }

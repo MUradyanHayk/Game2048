@@ -7,15 +7,24 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntIntMap;
 import com.mygdx.game.managers.AssetsManager;
 
 import java.util.Random;
+
+/**
+ * @Date 01.10.2019
+ * @Author HaykMuradyan
+ */
 
 public class BoardGroup extends Group {
     private int level;
     private Skin skin;
     private Image boardImg;
     private NumberGroup[][] numberGroups_bg;
+    private Array<NumberGroup> numberGroupsArray;
+    private Array<Pos> posArray;
     private Group backEndGroup;
     private Group frontEndGroup;
 
@@ -28,7 +37,7 @@ public class BoardGroup extends Group {
     private void init() {
         initSkin();
         initGroups();
-        initNumberGroups_bg();
+        initNumberGroups();
     }
 
     private void initGroups() {
@@ -45,18 +54,84 @@ public class BoardGroup extends Group {
         addActor(frontEndGroup);
     }
 
-    private void initNumberGroups_bg() {
+    private void initNumberGroups() {
+        posArray = new Array<>();
         numberGroups_bg = new NumberGroup[getSizeByLevel()][getSizeByLevel()];
         for (int i = 0; i < numberGroups_bg.length; i++) {
             for (int j = 0; j < numberGroups_bg[i].length; j++) {
                 numberGroups_bg[i][j] = new NumberGroup(getWidth() / getSizeByLevel());
                 numberGroups_bg[i][j].setPosition(i * numberGroups_bg[i][j].getWidth(), j * numberGroups_bg[i][j].getHeight());
                 numberGroups_bg[i][j].addNumber();
+                posArray.add(new Pos(numberGroups_bg[i][j].getX(), numberGroups_bg[i][j].getY()));
                 backEndGroup.addActor(numberGroups_bg[i][j]);
             }
         }
-        createNumber();
-        createNumber();
+        numberGroupsArray = new Array<>();
+
+        createNumber("2");
+        createNumber("4");
+        createNumber("8");
+        createNumber("16");
+        createNumber("32");
+        createNumber("64");
+        createNumber("128");
+        createNumber("256");
+        createNumber("512");
+
+    }
+
+
+    private void initSkin() {
+        skin = new Skin();
+        skin.addRegions(AssetsManager.getInstance().getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
+    }
+
+    private void createNumber(String text) {
+        NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
+        Random random = new Random();
+        float x = random.nextInt(getSizeByLevel()) * numberGroup.getWidth();
+        float y = random.nextInt(getSizeByLevel()) * numberGroup.getHeight();
+        numberGroup.setPosition(x, y);
+
+        for (int i = 0; i < numberGroupsArray.size; i++) {
+            if (getSizeByLevel() * getSizeByLevel() <= numberGroupsArray.size) {
+                break;
+            }
+            if (x == numberGroupsArray.get(i).getX() && y == numberGroupsArray.get(i).getY()) {
+                i = 0;
+                x = random.nextInt(getSizeByLevel()) * numberGroup.getWidth();
+                y = random.nextInt(getSizeByLevel()) * numberGroup.getHeight();
+            }
+        }
+
+
+//            for (int i = 0; i < posArray.size; i++) {
+//                if (posArray.get(i).getX() == x && posArray.get(i).getY() == y) {
+//                    posArray.removeIndex(i);
+//
+//                    System.out.println("==========================");
+//                    System.out.println("if");
+//                    System.out.println("==========================");
+//
+//                    break;
+//                } else {
+//                    x = random.nextInt(getSizeByLevel())* numberGroup.getWidth();
+//                    y = random.nextInt(getSizeByLevel())* numberGroup.getHeight();;
+//
+//                    System.out.println("==========================");
+//                    System.out.println("else");
+//                    System.out.println("==========================");
+//                    i = 0;
+//                }
+//            }
+
+
+        System.out.println("x = " + x + "  ,  " + "y = " + y);
+
+        numberGroup.setPosition(x, y);
+        numberGroup.addNumber();
+        numberGroupsArray.add(numberGroup);
+        frontEndGroup.addActor(numberGroup);
     }
 
     private int getSizeByLevel() {
@@ -73,29 +148,6 @@ public class BoardGroup extends Group {
                 return 8;
         }
         return -1;
-    }
-
-    private void initSkin() {
-        skin = new Skin();
-        skin.addRegions(AssetsManager.getInstance().getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
-    }
-
-    private void addNumberInBoard() {
-
-    }
-
-    private void createNumber() {
-        createNumber("2");
-    }
-
-    private void createNumber(String text) {
-        Random random = new Random();
-        int x = random.nextInt(getSizeByLevel());
-        int y = random.nextInt(getSizeByLevel());
-        NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
-        numberGroup.setPosition(x * numberGroup.getWidth(), y * numberGroup.getHeight());
-        numberGroup.addNumber();
-        frontEndGroup.addActor(numberGroup);
     }
 
     public GestureDetector getMyGestureAdapter() {

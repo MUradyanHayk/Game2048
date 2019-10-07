@@ -47,7 +47,8 @@ public class Game2048 extends Game {
             case 2:
                 gameScreen = new GameScreen();
                 setScreen(gameScreen);
-                Gdx.input.setInputProcessor(new InputMultiplexer(gameScreen.getGameStage(), gameScreen.getGameStage().getBoardGroup().getMyGestureAdapter()));
+                Gdx.input.setInputProcessor(new InputMultiplexer(gameScreen.getGameStage(),
+                        gameScreen.getGameStage().getBoardGroup().getMyGestureAdapter()));
                 break;
         }
     }

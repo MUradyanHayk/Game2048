@@ -23,6 +23,8 @@ import com.mygdx.game.utils.ConstInterface;
  */
 
 public class GameStage extends Stage {
+    private static final String SCORE_TEXT = "score\n\n";
+    private static final String RECORD_TEXT = "record\n\n";
     private DataManager dataManager;
     private AssetsManager assetsManager;
     private Skin skin;
@@ -82,7 +84,6 @@ public class GameStage extends Stage {
         table.row();
         table.add(boardGroup).size(boardGroup.getWidth(), boardGroup.getHeight()).colspan(3).spaceTop(boardGroup.getWidth() * 0.02f);
         addActor(table);
-        //table.debugAll();
     }
 
     private void initButtons() {
@@ -90,11 +91,11 @@ public class GameStage extends Stage {
         textButtonStyle.font = assetsManager.getInternalManager().get(ConstInterface.CONSOLAS_SMALL_FONT);
         textButtonStyle.fontColor = Color.BLACK;
 
-        countTextBtn = new TextButton("score", textButtonStyle);
+        countTextBtn = new TextButton(SCORE_TEXT + 0, textButtonStyle);
         countTextBtn.setSize(Gdx.graphics.getWidth() * 0.2f, Gdx.graphics.getWidth() * 0.2f);
         countTextBtn.getLabel().setAlignment(Align.top);
 
-        recordTextBtn = new TextButton("record", textButtonStyle);
+        recordTextBtn = new TextButton(RECORD_TEXT + 0, textButtonStyle);
         recordTextBtn.setSize(Gdx.graphics.getWidth() * 0.2f, Gdx.graphics.getWidth() * 0.2f);
         recordTextBtn.getLabel().setAlignment(Align.top);
 

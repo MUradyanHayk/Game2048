@@ -1,5 +1,8 @@
 package com.mygdx.game.utils;
-
+/**
+ * @Date 01.10.2019
+ * @Author HaykMuradyan
+ */
 public class GameData {
     private int level;
 
