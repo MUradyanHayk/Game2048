@@ -98,7 +98,7 @@ public class BoardGroup extends Group {
                 break;
             }
             if (x == numberGroupsArray.get(i).getX() && y == numberGroupsArray.get(i).getY()) {
-                i = 0;
+                i = -1;
                 x = random.nextInt(getSizeByLevel()) * numberGroup.getWidth();
                 y = random.nextInt(getSizeByLevel()) * numberGroup.getHeight();
             }
@@ -171,6 +171,5 @@ public class BoardGroup extends Group {
         public boolean panStop(float x, float y, int pointer, int button) {
             return false;
         }
-
     }
 }
