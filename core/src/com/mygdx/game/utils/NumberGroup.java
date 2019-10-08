@@ -1,14 +1,11 @@
 package com.mygdx.game.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.managers.AssetsManager;
 
@@ -54,12 +51,6 @@ public class NumberGroup extends Group {
         numberLabel.setAlignment(Align.center);
         numberLabel.setSize(getWidth(), getHeight());
         numberLabel.setPosition(getWidth() * 0.5f - numberLabel.getWidth() * 0.5f, getHeight() * 0.5f - numberLabel.getHeight() * 0.5f);
-        this.addListener(new ClickListener() {
-            @Override
-            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                moveBy(x - getWidth() / 2, y - getHeight() / 2);
-            }
-        });
     }
 
     public void addNumber() {

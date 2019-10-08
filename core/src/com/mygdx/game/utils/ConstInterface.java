@@ -46,4 +46,10 @@ public interface ConstInterface {
 
     //unicode symbols
     String MULTIPLE = "\u00D7";
+
+    // directions
+    String LEFT = "left";
+    String RIGHT = "right";
+    String TOP = "top";
+    String BOTTOM = "bottom";
 }

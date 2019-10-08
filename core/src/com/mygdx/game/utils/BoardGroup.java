@@ -13,6 +13,8 @@ import com.mygdx.game.managers.AssetsManager;
 
 import java.util.Random;
 
+import javax.swing.text.StyleConstants;
+
 /**
  * @Date 01.10.2019
  * @Author HaykMuradyan
@@ -27,6 +29,12 @@ public class BoardGroup extends Group {
     private Array<Pos> posArray;
     private Group backEndGroup;
     private Group frontEndGroup;
+    private boolean justTouched = true;
+    private float x;
+    private float y;
+    private float dx;
+    private float dy;
+    private BoardGroup context = this;
 
     public BoardGroup(int level) {
         this.setSize(Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getWidth() * 0.9f);
@@ -69,14 +77,7 @@ public class BoardGroup extends Group {
         numberGroupsArray = new Array<>();
 
         createNumber("2");
-        createNumber("4");
-        createNumber("8");
-        createNumber("16");
-        createNumber("32");
-        createNumber("64");
-        createNumber("128");
-        createNumber("256");
-        createNumber("512");
+        createNumber("2");
 
     }
 
@@ -150,6 +151,29 @@ public class BoardGroup extends Group {
         return -1;
     }
 
+    private float getAngle(float x, float y) {
+        float angle = (float) Math.toDegrees(Math.atan2(this.y - y, this.x - x));
+
+        if (angle < 0) {
+            angle += 360;
+        }
+
+        return angle;
+    }
+
+    private String detectDirection(float x, float y) {
+        if (getAngle(x, y) > 315 && getAngle(x, y) <= 45) {
+            return ConstInterface.RIGHT;
+        } else if (getAngle(x, y) > 45 && getAngle(x, y) <= 135) {
+            return ConstInterface.TOP;
+        } else if (getAngle(x, y) > 135 && getAngle(x, y) <= 225) {
+            return ConstInterface.LEFT;
+        } else if (getAngle(x, y) > 225 && getAngle(x, y) <= 315) {
+            return ConstInterface.BOTTOM;
+        }
+        return null;
+    }
+
     public GestureDetector getMyGestureAdapter() {
         return new GestureDetector(new MyGestureAdapter());
     }
@@ -163,12 +187,27 @@ public class BoardGroup extends Group {
 
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            Gdx.app.log("TAG", "pan");
+            if (justTouched) {
+                context.x = x;
+                context.y = y;
+                justTouched = false;
+            }
+            if (context.x >= context.getX() + Gdx.graphics.getWidth() * 0.005f &&
+                    context.x <= context.getX() + context.getWidth() - Gdx.graphics.getWidth() * 0.005f &&
+                    context.y >= context.getY() + Gdx.graphics.getHeight() * 0.005f &&
+                    context.y <= context.getY() + context.getHeight() - Gdx.graphics.getHeight() * 0.005f) {
+                context.dx = context.x - x;
+                context.dy = context.y - y;
+                if (Math.abs(context.dx) > Gdx.graphics.getWidth() * 0.005f || Math.abs(context.dy) > Gdx.graphics.getHeight()) {
+                    Gdx.app.log("TAG", detectDirection(x, y));
+                }
+            }
             return false;
         }
 
         @Override
         public boolean panStop(float x, float y, int pointer, int button) {
+            justTouched = true;
             return false;
         }
     }
