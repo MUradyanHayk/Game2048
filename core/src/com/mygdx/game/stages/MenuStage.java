@@ -3,6 +3,7 @@ package com.mygdx.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -61,7 +62,8 @@ public class MenuStage extends Stage {
     private void initManagers() {
         assetManager = AssetsManager.getInstance().getInternalManager();
         skin = new Skin();
-        skin.addRegions(assetManager.get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
+        TextureAtlas atlas = assetManager.get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS);
+        skin.addRegions(atlas);
         dataManager = DataManager.getInstance();
         data = new GameData();
     }

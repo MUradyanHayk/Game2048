@@ -1,6 +1,7 @@
 package com.mygdx.game.utils;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
@@ -36,7 +37,7 @@ public class NumberGroup extends Group {
 
     private void init() {
         skin = new Skin();
-        skin.addRegions(AssetsManager.getInstance().getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
+        skin.addRegions((TextureAtlas) AssetsManager.getInstance().getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
 
         setSize(size, size);
         numberImg = new Image(skin.getDrawable(ConstInterface.NUMBER_BG));

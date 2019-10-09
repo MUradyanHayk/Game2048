@@ -3,8 +3,10 @@ package com.mygdx.game.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
@@ -33,6 +35,7 @@ public class BoardGroup extends Group {
     private float y;
     private float dx;
     private float dy;
+    private boolean justPaned = true;
     private BoardGroup context = this;
 
     public BoardGroup(int level) {
@@ -194,6 +197,47 @@ public class BoardGroup extends Group {
         return "null";
     }
 
+    private void numbersMove(String direction) {
+        Action moveTo;
+        switch (direction) {
+            case ConstInterface.TOP:
+                for (int i = 0; i < numberGroupsArray.size; i++) {
+                    move(numberGroupsArray.get(i), numberGroupsArray.get(i).getX(), getY() + getHeight());
+                }
+                break;
+            case ConstInterface.BOTTOM:
+                for (int i = 0; i < numberGroupsArray.size; i++) {
+                    move(numberGroupsArray.get(i), numberGroupsArray.get(i).getX(), getY());
+                }
+                break;
+            case ConstInterface.LEFT:
+                for (int i = 0; i < numberGroupsArray.size; i++) {
+                    move(numberGroupsArray.get(i), getX(), numberGroupsArray.get(i).getY());
+                }
+                break;
+            case ConstInterface.RIGHT:
+                for (int i = 0; i < numberGroupsArray.size; i++) {
+                    move(numberGroupsArray.get(i), getX() + getWidth(), numberGroupsArray.get(i).getY());
+//                    MoveToAction moveToAction = new MoveToAction();
+//                    moveToAction.setPosition(getX() + getWidth(), numberGroupsArray.get(i).getY());
+//                    moveToAction.setDuration(2);
+//                    numberGroupsArray.get(i).addAction(moveToAction);
+                }
+                break;
+        }
+    }
+
+    private void move(NumberGroup group, float x, float y) {
+        Action moveTo = new Action() {
+            @Override
+            public boolean act(float delta) {
+                group.moveBy(x, y);
+                return false;
+            }
+        };
+        group.addAction(moveTo);
+    }
+
     public GestureDetector getMyGestureAdapter() {
         return new GestureDetector(new MyGestureAdapter());
     }
@@ -213,7 +257,13 @@ public class BoardGroup extends Group {
                 dx = x - startX;
                 dy = startY - y;
                 if (Math.abs(dx) > Gdx.graphics.getWidth() * 0.008f || Math.abs(dy) > Gdx.graphics.getHeight() * 0.008) {
-                    Gdx.app.log("TAG", detectDirection(x, y));
+                    if (justPaned) {
+                        String d = detectDirection(x, y);
+                        numbersMove(d);
+//
+                        Gdx.app.log("TAG", d);
+                        justPaned = false;
+                    }
                 }
             }
             return false;
@@ -222,7 +272,7 @@ public class BoardGroup extends Group {
         @Override
         public boolean panStop(float x, float y, int pointer, int button) {
             justTouched = true;
-            //Gdx.app.log("TAG", detectDirection(x, y));
+            justPaned = true;
             return false;
         }
     }
