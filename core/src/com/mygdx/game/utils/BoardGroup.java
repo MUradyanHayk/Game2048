@@ -8,12 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntIntMap;
 import com.mygdx.game.managers.AssetsManager;
 
 import java.util.Random;
-
-import javax.swing.text.StyleConstants;
 
 /**
  * @Date 01.10.2019
@@ -30,6 +27,8 @@ public class BoardGroup extends Group {
     private Group backEndGroup;
     private Group frontEndGroup;
     private boolean justTouched = true;
+    private float startX;
+    private float startY;
     private float x;
     private float y;
     private float dx;
@@ -107,7 +106,7 @@ public class BoardGroup extends Group {
 
 
 //            for (int i = 0; i < posArray.size; i++) {
-//                if (posArray.get(i).getX() == x && posArray.get(i).getY() == y) {
+//                if (posArray.get(i).getX() == startX && posArray.get(i).getY() == startY) {
 //                    posArray.removeIndex(i);
 //
 //                    System.out.println("==========================");
@@ -116,8 +115,8 @@ public class BoardGroup extends Group {
 //
 //                    break;
 //                } else {
-//                    x = random.nextInt(getSizeByLevel())* numberGroup.getWidth();
-//                    y = random.nextInt(getSizeByLevel())* numberGroup.getHeight();;
+//                    startX = random.nextInt(getSizeByLevel())* numberGroup.getWidth();
+//                    startY = random.nextInt(getSizeByLevel())* numberGroup.getHeight();;
 //
 //                    System.out.println("==========================");
 //                    System.out.println("else");
@@ -127,7 +126,7 @@ public class BoardGroup extends Group {
 //            }
 
 
-        System.out.println("x = " + x + "  ,  " + "y = " + y);
+        System.out.println("startX = " + x + "  ,  " + "startY = " + y);
 
         numberGroup.setPosition(x, y);
         numberGroup.addNumber();
@@ -152,26 +151,47 @@ public class BoardGroup extends Group {
     }
 
     private float getAngle(float x, float y) {
-        float angle = (float) Math.toDegrees(Math.atan2(this.y - y, this.x - x));
-
-        if (angle < 0) {
-            angle += 360;
+////        float dx = this.startX - x;
+////        float dy = this.startY - y;
+        dx = x - startX;
+        dy = startY - y;
+        float a = 0;
+        if (dx == 0) {
+            a = dy > 0 ? 90 : 270;
+            return a;
         }
+        if (dy == 0) {
+            a = dx > 0 ? 0 : 180;
 
-        return angle;
+            return a;
+        }
+        //tan(a) == abs(dy) / abs(dx) therefore
+        a = (float) Math.toDegrees(Math.atan(Math.abs(dy / dx)));
+        if (dx > 0 && dy > 0) {
+            // do nothing, 'a' is correct
+        } else if (dx > 0 && dy < 0) {
+            a = 360 - a;
+        } else if (dx < 0 && dy > 0) {
+            a = 180 - a;
+        } else {
+            a = 180 + a;
+        }
+        return a;
     }
 
     private String detectDirection(float x, float y) {
-        if (getAngle(x, y) > 315 && getAngle(x, y) <= 45) {
+        //System.out.println(getAngle(x, y));
+        float angle = getAngle(x, y);
+        if (angle >= 0 && angle <= 45 || angle >= 315 && angle < 360) {
             return ConstInterface.RIGHT;
-        } else if (getAngle(x, y) > 45 && getAngle(x, y) <= 135) {
+        } else if (angle > 45 && angle <= 135) {
             return ConstInterface.TOP;
-        } else if (getAngle(x, y) > 135 && getAngle(x, y) <= 225) {
+        } else if (angle > 135 && angle <= 225) {
             return ConstInterface.LEFT;
-        } else if (getAngle(x, y) > 225 && getAngle(x, y) <= 315) {
+        } else if (angle > 225 && angle <= 315) {
             return ConstInterface.BOTTOM;
         }
-        return null;
+        return "null";
     }
 
     public GestureDetector getMyGestureAdapter() {
@@ -179,26 +199,20 @@ public class BoardGroup extends Group {
     }
 
     private class MyGestureAdapter extends GestureDetector.GestureAdapter {
-
-        @Override
-        public boolean touchDown(float x, float y, int pointer, int button) {
-            return false;
-        }
-
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
             if (justTouched) {
-                context.x = x;
-                context.y = y;
+                startX = x;
+                startY = y;
                 justTouched = false;
             }
-            if (context.x >= context.getX() + Gdx.graphics.getWidth() * 0.005f &&
-                    context.x <= context.getX() + context.getWidth() - Gdx.graphics.getWidth() * 0.005f &&
-                    context.y >= context.getY() + Gdx.graphics.getHeight() * 0.005f &&
-                    context.y <= context.getY() + context.getHeight() - Gdx.graphics.getHeight() * 0.005f) {
-                context.dx = context.x - x;
-                context.dy = context.y - y;
-                if (Math.abs(context.dx) > Gdx.graphics.getWidth() * 0.005f || Math.abs(context.dy) > Gdx.graphics.getHeight()) {
+            if (startX >= getX() + Gdx.graphics.getWidth() * 0.008f &&
+                    startX <= getX() + context.getWidth() - Gdx.graphics.getWidth() * 0.008f &&
+                    startY >= getY() + Gdx.graphics.getHeight() * 0.008f &&
+                    startY <= getY() + getHeight() - Gdx.graphics.getHeight() * 0.008f) {
+                dx = x - startX;
+                dy = startY - y;
+                if (Math.abs(dx) > Gdx.graphics.getWidth() * 0.008f || Math.abs(dy) > Gdx.graphics.getHeight() * 0.008) {
                     Gdx.app.log("TAG", detectDirection(x, y));
                 }
             }
@@ -208,6 +222,7 @@ public class BoardGroup extends Group {
         @Override
         public boolean panStop(float x, float y, int pointer, int button) {
             justTouched = true;
+            //Gdx.app.log("TAG", detectDirection(x, y));
             return false;
         }
     }

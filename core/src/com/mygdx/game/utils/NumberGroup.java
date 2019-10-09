@@ -3,6 +3,7 @@ package com.mygdx.game.utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -56,6 +57,15 @@ public class NumberGroup extends Group {
     public void addNumber() {
         addActor(numberImg);
         addActor(numberLabel);
+        if (!text.equals("")) {
+            ScaleToAction scaleToAction1 = new ScaleToAction();
+            scaleToAction1.setScale(0.2f);
+            ScaleToAction scaleToAction2 = new ScaleToAction();
+            scaleToAction2.setScale(1);
+            scaleToAction2.setDuration(0.15f);
+            setOrigin(getWidth()/2,getHeight()/2);
+            addAction(Actions.sequence(scaleToAction1, scaleToAction2));
+        }
     }
 
     private void setBgColor() {
