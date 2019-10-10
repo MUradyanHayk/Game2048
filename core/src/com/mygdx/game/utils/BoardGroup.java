@@ -113,19 +113,10 @@ public class BoardGroup extends Group {
 //            for (int i = 0; i < posArray.size; i++) {
 //                if (posArray.get(i).getX() == startX && posArray.get(i).getY() == startY) {
 //                    posArray.removeIndex(i);
-//
-//                    System.out.println("==========================");
-//                    System.out.println("if");
-//                    System.out.println("==========================");
-//
 //                    break;
 //                } else {
 //                    startX = random.nextInt(getSizeByLevel())* numberGroup.getWidth();
 //                    startY = random.nextInt(getSizeByLevel())* numberGroup.getHeight();;
-//
-//                    System.out.println("==========================");
-//                    System.out.println("else");
-//                    System.out.println("==========================");
 //                    i = 0;
 //                }
 //            }
