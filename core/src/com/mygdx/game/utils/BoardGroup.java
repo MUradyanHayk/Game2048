@@ -37,6 +37,8 @@ public class BoardGroup extends Group {
     private float dy;
     private boolean justPaned = true;
     private BoardGroup context = this;
+    private boolean actionStop = false;
+    private boolean moving = false;
 
     public BoardGroup(int level) {
         this.setSize(Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getWidth() * 0.9f);
@@ -154,8 +156,6 @@ public class BoardGroup extends Group {
     }
 
     private float getAngle(float x, float y) {
-////        float dx = this.startX - x;
-////        float dy = this.startY - y;
         dx = x - startX;
         dy = startY - y;
         float a = 0;
@@ -183,7 +183,6 @@ public class BoardGroup extends Group {
     }
 
     private String detectDirection(float x, float y) {
-        //System.out.println(getAngle(x, y));
         float angle = getAngle(x, y);
         if (angle >= 0 && angle <= 45 || angle >= 315 && angle < 360) {
             return ConstInterface.RIGHT;
@@ -198,44 +197,74 @@ public class BoardGroup extends Group {
     }
 
     private void numbersMove(String direction) {
-        Action moveTo;
-        switch (direction) {
-            case ConstInterface.TOP:
-                for (int i = 0; i < numberGroupsArray.size; i++) {
-                    move(numberGroupsArray.get(i), numberGroupsArray.get(i).getX(), getY() + getHeight());
-                }
+        for (int i = 0; i < numberGroupsArray.size; i++) {
+            move(numberGroupsArray.get(i), direction);
+        }
+
+        for (int i = 0; i < numberGroupsArray.size; i++) {
+            if (numberGroupsArray.get(i).isActionStop()) {
+                moving = false;
                 break;
-            case ConstInterface.BOTTOM:
-                for (int i = 0; i < numberGroupsArray.size; i++) {
-                    move(numberGroupsArray.get(i), numberGroupsArray.get(i).getX(), getY());
-                }
-                break;
-            case ConstInterface.LEFT:
-                for (int i = 0; i < numberGroupsArray.size; i++) {
-                    move(numberGroupsArray.get(i), getX(), numberGroupsArray.get(i).getY());
-                }
-                break;
-            case ConstInterface.RIGHT:
-                for (int i = 0; i < numberGroupsArray.size; i++) {
-                    move(numberGroupsArray.get(i), getX() + getWidth(), numberGroupsArray.get(i).getY());
-//                    MoveToAction moveToAction = new MoveToAction();
-//                    moveToAction.setPosition(getX() + getWidth(), numberGroupsArray.get(i).getY());
-//                    moveToAction.setDuration(2);
-//                    numberGroupsArray.get(i).addAction(moveToAction);
-                }
-                break;
+            }
         }
     }
 
-    private void move(NumberGroup group, float x, float y) {
-        Action moveTo = new Action() {
-            @Override
-            public boolean act(float delta) {
-                group.moveBy(x, y);
-                return false;
+    private void move(NumberGroup group, String d) {
+        if (!group.isActionStop()) {
+            final float[] boundTop = {group.getX(), getHeight() - group.getHeight()};
+            final float[] boundBottom = {group.getX(), 0};
+            final float[] boundLeft = {0, group.getY()};
+            final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
+
+            float t = Gdx.graphics.getDeltaTime();
+            switch (d) {
+                case ConstInterface.TOP:
+                    x = boundTop[0];
+                    y = boundTop[1];
+                    if (group.getY() <= y) {
+                        group.moveBy(x, group.getY() + t);
+                    } else {
+                        group.setActionStop(true);
+                    }
+                    break;
+                case ConstInterface.BOTTOM:
+                    x = boundBottom[0];
+                    y = boundBottom[1];
+                    if (group.getY() >= y) {
+                        group.moveBy(x, group.getY() - t);
+                    } else {
+                        group.setActionStop(true);
+                    }
+                    break;
+                case ConstInterface.LEFT:
+                    x = boundLeft[0];
+                    y = boundLeft[1];
+                    if (group.getX() >= x) {
+                        group.moveBy(group.getX() - t, y);
+                    } else {
+                        group.setActionStop(true);
+                    }
+                    break;
+                case ConstInterface.RIGHT:
+                    x = boundRight[0];
+                    y = boundRight[1];
+                    if (group.getX() <= x) {
+                        group.moveBy(group.getX() + t, y);
+                    } else {
+                        group.setActionStop(true);
+                    }
+                    break;
             }
-        };
-        group.addAction(moveTo);
+            System.out.println("action : moveTo");
+        }
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (moving) {
+            numbersMove(detectDirection(x, y));
+        }
     }
 
     public GestureDetector getMyGestureAdapter() {
@@ -258,10 +287,15 @@ public class BoardGroup extends Group {
                 dy = startY - y;
                 if (Math.abs(dx) > Gdx.graphics.getWidth() * 0.008f || Math.abs(dy) > Gdx.graphics.getHeight() * 0.008) {
                     if (justPaned) {
-                        String d = detectDirection(x, y);
-                        numbersMove(d);
-//
-                        Gdx.app.log("TAG", d);
+                        context.x = x;
+                        context.y = y;
+
+                        for (int i = 0; i < numberGroupsArray.size; i++) {
+                            numberGroupsArray.get(i).setActionStop(false);
+                        }
+
+                        moving = true;
+                        Gdx.app.log("TAG", "paned");
                         justPaned = false;
                     }
                 }

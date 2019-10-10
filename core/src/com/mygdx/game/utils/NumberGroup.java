@@ -23,6 +23,7 @@ public class NumberGroup extends Group {
     private float size;
     private Label.LabelStyle labelStyle;
     private String text;
+    private boolean actionStop;
 
     public NumberGroup(float size) {
         this("", size);
@@ -64,7 +65,7 @@ public class NumberGroup extends Group {
             ScaleToAction scaleToAction2 = new ScaleToAction();
             scaleToAction2.setScale(1);
             scaleToAction2.setDuration(0.15f);
-            setOrigin(getWidth()/2,getHeight()/2);
+            setOrigin(getWidth() / 2, getHeight() / 2);
             addAction(Actions.sequence(scaleToAction1, scaleToAction2));
         }
     }
@@ -173,6 +174,14 @@ public class NumberGroup extends Group {
 
     public String getText() {
         return text;
+    }
+
+    public boolean isActionStop() {
+        return actionStop;
+    }
+
+    public void setActionStop(boolean actionStop) {
+        this.actionStop = actionStop;
     }
 }
 
