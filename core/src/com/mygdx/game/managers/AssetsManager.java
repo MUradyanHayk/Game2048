@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -65,6 +66,8 @@ public class AssetsManager {
         internalManager.load(ConstInterface.CONSOLAS_MIDDLE_FONT, BitmapFont.class, paramMiddle);
 
         internalManager.load(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS, TextureAtlas.class);
+
+        internalManager.load(ConstInterface.SOUND_PATH + ConstInterface.MOVE_SOUND, Sound.class);
     }
 
     private void init() {

@@ -11,6 +11,7 @@ public interface ConstInterface {
     //paths
     String IMAGES_PATH = "images/";
     String FONTS_PATH = "fonts/";
+    String SOUND_PATH = "audio/sounds/";
 
     String ATLAS = "skinsAtlas.atlas";
 
@@ -52,4 +53,7 @@ public interface ConstInterface {
     String RIGHT = "right";
     String TOP = "top";
     String BOTTOM = "bottom";
+
+    //audio
+    String MOVE_SOUND = "move_sound.mp3";
 }

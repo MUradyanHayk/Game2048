@@ -23,7 +23,7 @@ public class NumberGroup extends Group {
     private float size;
     private Label.LabelStyle labelStyle;
     private String text;
-    private boolean actionStop;
+    private boolean actionStop = true;
 
     public NumberGroup(float size) {
         this("", size);

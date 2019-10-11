@@ -1,16 +1,16 @@
 package com.mygdx.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.managers.AssetsManager;
+import com.mygdx.game.managers.AudioManager;
 
 import java.util.Random;
 
@@ -35,9 +35,10 @@ public class BoardGroup extends Group {
     private float y;
     private float dx;
     private float dy;
+    private String detection;
     private boolean justPaned = true;
     private BoardGroup context = this;
-    private boolean actionStop = false;
+//    private boolean actionStop = false;
     private boolean moving = false;
 
     public BoardGroup(int level) {
@@ -109,19 +110,6 @@ public class BoardGroup extends Group {
             }
         }
 
-
-//            for (int i = 0; i < posArray.size; i++) {
-//                if (posArray.get(i).getX() == startX && posArray.get(i).getY() == startY) {
-//                    posArray.removeIndex(i);
-//                    break;
-//                } else {
-//                    startX = random.nextInt(getSizeByLevel())* numberGroup.getWidth();
-//                    startY = random.nextInt(getSizeByLevel())* numberGroup.getHeight();;
-//                    i = 0;
-//                }
-//            }
-
-
         System.out.println("startX = " + x + "  ,  " + "startY = " + y);
 
         numberGroup.setPosition(x, y);
@@ -187,62 +175,68 @@ public class BoardGroup extends Group {
         return "null";
     }
 
-    private void numbersMove(String direction) {
+    private void numbersMove() {
         for (int i = 0; i < numberGroupsArray.size; i++) {
-            move(numberGroupsArray.get(i), direction);
+            move(numberGroupsArray.get(i));
         }
 
         for (int i = 0; i < numberGroupsArray.size; i++) {
             if (numberGroupsArray.get(i).isActionStop()) {
-                moving = false;
-                break;
+                return;
             }
         }
+        moving = false;
+        justPaned = true;
     }
 
-    private void move(NumberGroup group, String d) {
-        if (!group.isActionStop()) {
+    private void move(NumberGroup group) {
+        if (group.isActionStop()) {
+            System.out.println("direction : " + detection);
             final float[] boundTop = {group.getX(), getHeight() - group.getHeight()};
             final float[] boundBottom = {group.getX(), 0};
             final float[] boundLeft = {0, group.getY()};
             final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
 
-            float t = Gdx.graphics.getDeltaTime();
-            switch (d) {
+            float t = Gdx.graphics.getDeltaTime() * 500;
+            switch (detection) {
                 case ConstInterface.TOP:
                     x = boundTop[0];
                     y = boundTop[1];
-                    if (group.getY() <= y) {
-                        group.moveBy(x, group.getY() + t);
+                    if (group.getY() < y) {
+                        group.setPosition(x, group.getY() + t);
                     } else {
-                        group.setActionStop(true);
+                        group.setActionStop(false);
+                        group.setPosition(x, getHeight() - group.getHeight());
                     }
                     break;
                 case ConstInterface.BOTTOM:
                     x = boundBottom[0];
                     y = boundBottom[1];
-                    if (group.getY() >= y) {
-                        group.moveBy(x, group.getY() - t);
+                    if (group.getY() > y) {
+                        group.setPosition(x, group.getY() - t);
                     } else {
-                        group.setActionStop(true);
+                        group.setActionStop(false);
+                        group.setPosition(x, 0);
                     }
                     break;
                 case ConstInterface.LEFT:
                     x = boundLeft[0];
                     y = boundLeft[1];
-                    if (group.getX() >= x) {
-                        group.moveBy(group.getX() - t, y);
+                    if (group.getX() > x) {
+                        group.setPosition(group.getX() - t, y);
                     } else {
-                        group.setActionStop(true);
+                        group.setActionStop(false);
+                        group.setPosition(0, y);
                     }
                     break;
                 case ConstInterface.RIGHT:
                     x = boundRight[0];
                     y = boundRight[1];
-                    if (group.getX() <= x) {
-                        group.moveBy(group.getX() + t, y);
+                    if (group.getX() < x) {
+                        group.setPosition(group.getX() + t, y);
                     } else {
-                        group.setActionStop(true);
+                        group.setActionStop(false);
+                        group.setPosition(getWidth() - group.getX(), y);
                     }
                     break;
             }
@@ -253,8 +247,23 @@ public class BoardGroup extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (moving) {
-            numbersMove(detectDirection(x, y));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.DOWN) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.LEFT) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            motion();
+//            justPaned = true;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && moving) {
+            numbersMove();
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moving) {
+            numbersMove();
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moving) {
+            numbersMove();
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moving) {
+            numbersMove();
+        } else if (moving) {
+            numbersMove();
         }
     }
 
@@ -265,29 +274,22 @@ public class BoardGroup extends Group {
     private class MyGestureAdapter extends GestureDetector.GestureAdapter {
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            if (justTouched) {
-                startX = x;
-                startY = y;
-                justTouched = false;
-            }
-            if (startX >= getX() + Gdx.graphics.getWidth() * 0.008f &&
-                    startX <= getX() + context.getWidth() - Gdx.graphics.getWidth() * 0.008f &&
-                    startY >= getY() + Gdx.graphics.getHeight() * 0.008f &&
-                    startY <= getY() + getHeight() - Gdx.graphics.getHeight() * 0.008f) {
-                dx = x - startX;
-                dy = startY - y;
-                if (Math.abs(dx) > Gdx.graphics.getWidth() * 0.008f || Math.abs(dy) > Gdx.graphics.getHeight() * 0.008) {
-                    if (justPaned) {
-                        context.x = x;
-                        context.y = y;
-
-                        for (int i = 0; i < numberGroupsArray.size; i++) {
-                            numberGroupsArray.get(i).setActionStop(false);
-                        }
-
-                        moving = true;
-                        Gdx.app.log("TAG", "paned");
+            if (justPaned) {
+                if (justTouched) {
+                    startX = x;
+                    startY = y;
+                    justTouched = false;
+                }
+                if (startX >= getX() + Gdx.graphics.getWidth() * 0.008f &&
+                        startX <= getX() + context.getWidth() - Gdx.graphics.getWidth() * 0.008f &&
+                        startY >= getY() + Gdx.graphics.getHeight() * 0.008f &&
+                        startY <= getY() + getHeight() - Gdx.graphics.getHeight() * 0.008f) {
+                    dx = x - startX;
+                    dy = startY - y;
+                    if (Math.abs(dx) > Gdx.graphics.getWidth() * 0.008f || Math.abs(dy) > Gdx.graphics.getHeight() * 0.008) {
+                        detection = detectDirection(x, y);
                         justPaned = false;
+                        motion();
                     }
                 }
             }
@@ -297,8 +299,22 @@ public class BoardGroup extends Group {
         @Override
         public boolean panStop(float x, float y, int pointer, int button) {
             justTouched = true;
-            justPaned = true;
+//            justPaned = true;
             return false;
         }
+    }
+
+    private void motion() {
+            AudioManager.getInstance().getSound(ConstInterface.SOUND_PATH + ConstInterface.MOVE_SOUND).play();
+            context.x = x;
+            context.y = y;
+
+            for (int i = 0; i < numberGroupsArray.size; i++) {
+                numberGroupsArray.get(i).setActionStop(true);
+            }
+
+            moving = true;
+            Gdx.app.log("TAG", "paned");
+            //justPaned = false;
     }
 }
