@@ -197,7 +197,7 @@ public class BoardGroup extends Group {
             final float[] boundLeft = {0, group.getY()};
             final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
 
-            float t = Gdx.graphics.getDeltaTime() * 500;
+            float t = Gdx.graphics.getDeltaTime() * 1200;
             switch (detection) {
                 case ConstInterface.TOP:
                     x = boundTop[0];
@@ -236,7 +236,7 @@ public class BoardGroup extends Group {
                         group.setPosition(group.getX() + t, y);
                     } else {
                         group.setActionStop(false);
-                        group.setPosition(getWidth() - group.getX(), y);
+                        group.setPosition(getWidth() - group.getWidth(), y);
                     }
                     break;
             }
