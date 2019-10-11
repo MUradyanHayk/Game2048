@@ -38,7 +38,7 @@ public class BoardGroup extends Group {
     private String detection;
     private boolean justPaned = true;
     private BoardGroup context = this;
-//    private boolean actionStop = false;
+    //    private boolean actionStop = false;
     private boolean moving = false;
 
     public BoardGroup(int level) {
@@ -197,12 +197,12 @@ public class BoardGroup extends Group {
             final float[] boundLeft = {0, group.getY()};
             final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
 
-            float t = Gdx.graphics.getDeltaTime() * 1200;
+            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 3;
             switch (detection) {
                 case ConstInterface.TOP:
                     x = boundTop[0];
                     y = boundTop[1];
-                    if (group.getY() < y) {
+                    if (group.getY() < y - t) {
                         group.setPosition(x, group.getY() + t);
                     } else {
                         group.setActionStop(false);
@@ -212,7 +212,7 @@ public class BoardGroup extends Group {
                 case ConstInterface.BOTTOM:
                     x = boundBottom[0];
                     y = boundBottom[1];
-                    if (group.getY() > y) {
+                    if (group.getY() > y + t) {
                         group.setPosition(x, group.getY() - t);
                     } else {
                         group.setActionStop(false);
@@ -222,7 +222,7 @@ public class BoardGroup extends Group {
                 case ConstInterface.LEFT:
                     x = boundLeft[0];
                     y = boundLeft[1];
-                    if (group.getX() > x) {
+                    if (group.getX() > x + t) {
                         group.setPosition(group.getX() - t, y);
                     } else {
                         group.setActionStop(false);
@@ -232,7 +232,7 @@ public class BoardGroup extends Group {
                 case ConstInterface.RIGHT:
                     x = boundRight[0];
                     y = boundRight[1];
-                    if (group.getX() < x) {
+                    if (group.getX() < x - t) {
                         group.setPosition(group.getX() + t, y);
                     } else {
                         group.setActionStop(false);
@@ -305,16 +305,16 @@ public class BoardGroup extends Group {
     }
 
     private void motion() {
-            AudioManager.getInstance().getSound(ConstInterface.SOUND_PATH + ConstInterface.MOVE_SOUND).play();
-            context.x = x;
-            context.y = y;
+        AudioManager.getInstance().getSound(ConstInterface.SOUND_PATH + ConstInterface.MOVE_SOUND).play();
+        context.x = x;
+        context.y = y;
 
-            for (int i = 0; i < numberGroupsArray.size; i++) {
-                numberGroupsArray.get(i).setActionStop(true);
-            }
+        for (int i = 0; i < numberGroupsArray.size; i++) {
+            numberGroupsArray.get(i).setActionStop(true);
+        }
 
-            moving = true;
-            Gdx.app.log("TAG", "paned");
-            //justPaned = false;
+        moving = true;
+        Gdx.app.log("TAG", "paned");
+        //justPaned = false;
     }
 }
