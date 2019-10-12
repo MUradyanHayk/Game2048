@@ -38,12 +38,13 @@ public class BoardGroup extends Group {
     private String detection;
     private boolean justPaned = true;
     private BoardGroup context = this;
-    //    private boolean actionStop = false;
+    private Random random;
     private boolean moving = false;
 
     public BoardGroup(int level) {
         this.setSize(Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getWidth() * 0.9f);
         this.level = level;
+        random = new Random();
         init();
     }
 
@@ -83,7 +84,6 @@ public class BoardGroup extends Group {
 
         createNumber("2");
         createNumber("2");
-
     }
 
 
@@ -94,7 +94,7 @@ public class BoardGroup extends Group {
 
     private void createNumber(String text) {
         NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
-        Random random = new Random();
+
         float x = random.nextInt(getSizeByLevel()) * numberGroup.getWidth();
         float y = random.nextInt(getSizeByLevel()) * numberGroup.getHeight();
         numberGroup.setPosition(x, y);
@@ -181,23 +181,81 @@ public class BoardGroup extends Group {
         }
 
         for (int i = 0; i < numberGroupsArray.size; i++) {
-            if (numberGroupsArray.get(i).isActionStop()) {
+            if (!numberGroupsArray.get(i).isActionStop()) {
                 return;
             }
         }
         moving = false;
         justPaned = true;
+        int num = random.nextInt(2);
+        String str = num == 1 ? "2" : "4";
+        createNumber(str);
     }
 
     private void move(NumberGroup group) {
-        if (group.isActionStop()) {
+//        if (!group.isActionStop()) {
+//            System.out.println("direction : " + detection);
+//            final float[] boundTop = {group.getX(), getHeight() - group.getHeight()};
+//            final float[] boundBottom = {group.getX(), 0};
+//            final float[] boundLeft = {0, group.getY()};
+//            final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
+//
+//            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 3;
+//            switch (detection) {
+//                case ConstInterface.TOP:
+//                    x = boundTop[0];
+//                    y = boundTop[1];
+//                    if (group.getY() < y - t) {
+//                        group.setPosition(x, group.getY() + t);
+//                    } else {
+//                        group.setActionStop(true);
+//                        group.setPosition(x, getHeight() - group.getHeight());
+//                    }
+//                    break;
+//                case ConstInterface.BOTTOM:
+//                    x = boundBottom[0];
+//                    y = boundBottom[1];
+//                    if (group.getY() > y + t) {
+//                        group.setPosition(x, group.getY() - t);
+//                    } else {
+//                        group.setActionStop(true);
+//                        group.setPosition(x, 0);
+//                    }
+//                    break;
+//                case ConstInterface.LEFT:
+//                    x = boundLeft[0];
+//                    y = boundLeft[1];
+//                    if (group.getX() > x + t) {
+//                        group.setPosition(group.getX() - t, y);
+//                    } else {
+//                        group.setActionStop(true);
+//                        group.setPosition(0, y);
+//                    }
+//                    break;
+//                case ConstInterface.RIGHT:
+//                    x = boundRight[0];
+//                    y = boundRight[1];
+//                    if (group.getX() < x - t) {
+//                        group.setPosition(group.getX() + t, y);
+//                    } else {
+//                        group.setActionStop(true);
+//                        group.setPosition(getWidth() - group.getWidth(), y);
+//                    }
+//                    break;
+//            }
+//            System.out.println("action : moveTo");
+//        }
+
+
+        if (true) {
             System.out.println("direction : " + detection);
             final float[] boundTop = {group.getX(), getHeight() - group.getHeight()};
             final float[] boundBottom = {group.getX(), 0};
             final float[] boundLeft = {0, group.getY()};
             final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
 
-            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 3;
+            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 0.3f;
+
             switch (detection) {
                 case ConstInterface.TOP:
                     x = boundTop[0];
@@ -205,7 +263,7 @@ public class BoardGroup extends Group {
                     if (group.getY() < y - t) {
                         group.setPosition(x, group.getY() + t);
                     } else {
-                        group.setActionStop(false);
+                        group.setActionStop(true);
                         group.setPosition(x, getHeight() - group.getHeight());
                     }
                     break;
@@ -215,18 +273,32 @@ public class BoardGroup extends Group {
                     if (group.getY() > y + t) {
                         group.setPosition(x, group.getY() - t);
                     } else {
-                        group.setActionStop(false);
+                        group.setActionStop(true);
                         group.setPosition(x, 0);
                     }
                     break;
                 case ConstInterface.LEFT:
                     x = boundLeft[0];
                     y = boundLeft[1];
-                    if (group.getX() > x + t) {
-                        group.setPosition(group.getX() - t, y);
+                    if (!group.isActionStop()) {
+                        if (group.getX() > x + t) {
+                            group.setPosition(group.getX() - t, y);
+                        } else {
+                            group.setActionStop(true);
+                            group.setPosition(0, y);
+                        }
                     } else {
-                        group.setActionStop(false);
-                        group.setPosition(0, y);
+                        for (int i = 0; i < numberGroupsArray.size; i++) {
+                            if (!numberGroupsArray.get(i).isActionStop()) {
+                                if (group.getRightRect().overlaps(numberGroupsArray.get(i).getLeftRect())) {
+                                    if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+                                        System.out.println("mtav 295");
+                                        numberGroupsArray.get(i).setActionStop(true);
+                                        //numberGroupsArray.get(i).setPosition(group.getX() + group.getWidth(), numberGroupsArray.get(i).getY());
+                                    }
+                                }
+                            }
+                        }
                     }
                     break;
                 case ConstInterface.RIGHT:
@@ -235,7 +307,7 @@ public class BoardGroup extends Group {
                     if (group.getX() < x - t) {
                         group.setPosition(group.getX() + t, y);
                     } else {
-                        group.setActionStop(false);
+                        group.setActionStop(true);
                         group.setPosition(getWidth() - group.getWidth(), y);
                     }
                     break;
@@ -310,7 +382,7 @@ public class BoardGroup extends Group {
         context.y = y;
 
         for (int i = 0; i < numberGroupsArray.size; i++) {
-            numberGroupsArray.get(i).setActionStop(true);
+            numberGroupsArray.get(i).setActionStop(false);
         }
 
         moving = true;

@@ -2,6 +2,7 @@ package com.mygdx.game.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
@@ -17,13 +18,18 @@ import com.mygdx.game.managers.AssetsManager;
  */
 
 public class NumberGroup extends Group {
+    private AssetsManager assetsManager;
     private Skin skin;
     private Image numberImg;
     private Label numberLabel;
     private float size;
     private Label.LabelStyle labelStyle;
     private String text;
-    private boolean actionStop = true;
+    private boolean actionStop;
+    private Rectangle topRect;
+    private Rectangle bottomRect;
+    private Rectangle leftRect;
+    private Rectangle rightRect;
 
     public NumberGroup(float size) {
         this("", size);
@@ -36,10 +42,9 @@ public class NumberGroup extends Group {
         setBgColor();
     }
 
-    private void init() {
-        skin = new Skin();
-        skin.addRegions((TextureAtlas) AssetsManager.getInstance().getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
 
+    private void init() {
+        initManagers();
         setSize(size, size);
         numberImg = new Image(skin.getDrawable(ConstInterface.NUMBER_BG));
         numberImg.setSize(getWidth() * 0.9f, getHeight() * 0.9f);
@@ -54,6 +59,32 @@ public class NumberGroup extends Group {
         numberLabel.setAlignment(Align.center);
         numberLabel.setSize(getWidth(), getHeight());
         numberLabel.setPosition(getWidth() * 0.5f - numberLabel.getWidth() * 0.5f, getHeight() * 0.5f - numberLabel.getHeight() * 0.5f);
+        initRectangles();
+    }
+
+    private void initManagers() {
+        assetsManager = AssetsManager.getInstance();
+        skin = new Skin();
+        skin.addRegions(assetsManager.getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
+    }
+
+    private void initRectangles() {
+        topRect = new Rectangle();
+        bottomRect = new Rectangle();
+        leftRect = new Rectangle();
+        rightRect = new Rectangle();
+
+        topRect.width = getWidth() * 0.5f;
+        topRect.height = getHeight() * 0.2f;
+
+        bottomRect.width = getWidth() * 0.5f;
+        bottomRect.height = getHeight() * 0.2f;
+
+        leftRect.width = getWidth() * 0.2f;
+        leftRect.height = getHeight() * 0.5f;
+
+        rightRect.width = getWidth() * 0.2f;
+        rightRect.height = getHeight() * 0.5f;
     }
 
     public void addNumber() {
@@ -61,35 +92,16 @@ public class NumberGroup extends Group {
         addActor(numberLabel);
         if (!text.equals("")) {
             ScaleToAction scaleToAction1 = new ScaleToAction();
-            scaleToAction1.setScale(0.2f);
+            scaleToAction1.setScale(0.6f);
             ScaleToAction scaleToAction2 = new ScaleToAction();
             scaleToAction2.setScale(1);
-            scaleToAction2.setDuration(0.15f);
+            scaleToAction2.setDuration(0.145f);
             setOrigin(getWidth() / 2, getHeight() / 2);
             addAction(Actions.sequence(scaleToAction1, scaleToAction2));
         }
     }
 
     private void setBgColor() {
-//        if (!text.trim().equals("")) {
-//            switch (Integer.valueOf(text.trim())) {
-//                case 3:
-//                    AssetsManager.getInstance().getParamLarge().fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.04f);
-//                    break;
-//                case 4:
-//                    AssetsManager.getInstance().getParamLarge().fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.08f);
-//                    break;
-//                case 5:
-//                    AssetsManager.getInstance().getParamLarge().fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.3216f);
-//                    break;
-//                case 6:
-//                    AssetsManager.getInstance().getParamLarge().fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.32f);
-//                    break;
-//                case 8:
-//                    AssetsManager.getInstance().getParamLarge().fontParameters.size = (int) (Gdx.graphics.getWidth() * 0.36f);
-//                    break;
-//            }
-//        }
         switch (text) {
             case "":
                 break;
@@ -164,6 +176,23 @@ public class NumberGroup extends Group {
         }
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        topRect.x = getX() * 0.5f - topRect.width * 0.5f;
+        topRect.y = getY() + getHeight() + topRect.height * 0.5f;
+
+        bottomRect.x = topRect.x;
+        bottomRect.y = getY() - bottomRect.height * 0.5f;
+
+        leftRect.x = getX() - leftRect.width * 0.5f;
+        leftRect.y = getY() * 0.5f - leftRect.height * 0.5f;
+
+        rightRect.x = getX() + rightRect.width * 0.5f;
+        rightRect.y = leftRect.y;
+    }
+
     public Image getNumberImg() {
         return numberImg;
     }
@@ -182,6 +211,22 @@ public class NumberGroup extends Group {
 
     public void setActionStop(boolean actionStop) {
         this.actionStop = actionStop;
+    }
+
+    public Rectangle getTopRect() {
+        return topRect;
+    }
+
+    public Rectangle getBottomRect() {
+        return bottomRect;
+    }
+
+    public Rectangle getLeftRect() {
+        return leftRect;
+    }
+
+    public Rectangle getRightRect() {
+        return rightRect;
     }
 }
 
