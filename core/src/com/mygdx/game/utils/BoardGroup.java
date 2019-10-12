@@ -110,7 +110,20 @@ public class BoardGroup extends Group {
             }
         }
 
-        System.out.println("startX = " + x + "  ,  " + "startY = " + y);
+//        System.out.println("startX = " + x + "  ,  " + "startY = " + y);
+
+        numberGroup.setPosition(x, y);
+        numberGroup.addNumber();
+        numberGroupsArray.add(numberGroup);
+        frontEndGroup.addActor(numberGroup);
+    }
+
+    private void createNumber(String text, float x, float y) {
+        NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
+
+        numberGroup.setPosition(x, y);
+
+//        System.out.println("startX = " + x + "  ,  " + "startY = " + y);
 
         numberGroup.setPosition(x, y);
         numberGroup.addNumber();
@@ -248,33 +261,77 @@ public class BoardGroup extends Group {
 
 
         if (true) {
-            System.out.println("direction : " + detection);
+//            System.out.println("direction : " + detection);
             final float[] boundTop = {group.getX(), getHeight() - group.getHeight()};
             final float[] boundBottom = {group.getX(), 0};
             final float[] boundLeft = {0, group.getY()};
             final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
 
-            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 0.3f;
+            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 2f;
 
             switch (detection) {
                 case ConstInterface.TOP:
                     x = boundTop[0];
                     y = boundTop[1];
-                    if (group.getY() < y - t) {
-                        group.setPosition(x, group.getY() + t);
+                    if (!group.isActionStop()) {
+                        if (group.getY() < y - t) {
+                            group.setPosition(x, group.getY() + t);
+                        } else {
+                            group.setActionStop(true);
+                            group.setPosition(x, getHeight() - group.getHeight());
+                        }
                     } else {
-                        group.setActionStop(true);
-                        group.setPosition(x, getHeight() - group.getHeight());
+                        for (int i = 0; i < numberGroupsArray.size; i++) {
+                            if (!numberGroupsArray.get(i).isActionStop()) {
+                                if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() - group.getHeight() >= numberGroupsArray.get(i).getY()) {
+                                        numberGroupsArray.get(i).setActionStop(true);
+                                        numberGroupsArray.get(i).setPosition(numberGroupsArray.get(i).getX(), group.getY() - group.getHeight());
+                                    }
+                                } else {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() <= numberGroupsArray.get(i).getY()) {
+                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        float posX = group.getX();
+                                        float posY = group.getY();
+                                        numberGroupsArray.removeIndex(i);
+                                        numberGroupsArray.removeValue(group, true);
+                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                    }
+                                }
+                            }
+                        }
                     }
                     break;
                 case ConstInterface.BOTTOM:
                     x = boundBottom[0];
                     y = boundBottom[1];
-                    if (group.getY() > y + t) {
-                        group.setPosition(x, group.getY() - t);
+                    if (!group.isActionStop()) {
+                        if (group.getY() > y + t) {
+                            group.setPosition(x, group.getY() - t);
+                        } else {
+                            group.setActionStop(true);
+                            group.setPosition(x, 0);
+                        }
                     } else {
-                        group.setActionStop(true);
-                        group.setPosition(x, 0);
+                        for (int i = 0; i < numberGroupsArray.size; i++) {
+                            if (!numberGroupsArray.get(i).isActionStop()) {
+                                if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() + group.getHeight() >= numberGroupsArray.get(i).getY()) {
+                                        numberGroupsArray.get(i).setActionStop(true);
+                                        numberGroupsArray.get(i).setPosition(numberGroupsArray.get(i).getX(), group.getY() + group.getHeight());
+                                    }
+                                } else {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() >= numberGroupsArray.get(i).getY()) {
+                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        float posX = group.getX();
+                                        float posY = group.getY();
+                                        numberGroupsArray.removeIndex(i);
+                                        numberGroupsArray.removeValue(group, true);
+                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                    }
+                                }
+                            }
+                        }
                     }
                     break;
                 case ConstInterface.LEFT:
@@ -290,11 +347,19 @@ public class BoardGroup extends Group {
                     } else {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
-                                if (group.getRightRect().overlaps(numberGroupsArray.get(i).getLeftRect())) {
-                                    if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                        System.out.println("mtav 295");
+                                if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+                                    if (group.getX() + group.getWidth() >= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
                                         numberGroupsArray.get(i).setActionStop(true);
-                                        //numberGroupsArray.get(i).setPosition(group.getX() + group.getWidth(), numberGroupsArray.get(i).getY());
+                                        numberGroupsArray.get(i).setPosition(group.getX() + group.getWidth(), numberGroupsArray.get(i).getY());
+                                    }
+                                } else {
+                                    if (group.getX() >= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
+                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        float posX = group.getX();
+                                        float posY = group.getY();
+                                        numberGroupsArray.removeIndex(i);
+                                        numberGroupsArray.removeValue(group, true);
+                                        createNumber(String.valueOf(2 * num), posX, posY);
                                     }
                                 }
                             }
@@ -304,11 +369,33 @@ public class BoardGroup extends Group {
                 case ConstInterface.RIGHT:
                     x = boundRight[0];
                     y = boundRight[1];
-                    if (group.getX() < x - t) {
-                        group.setPosition(group.getX() + t, y);
+                    if (!group.isActionStop()) {
+                        if (group.getX() < x - t) {
+                            group.setPosition(group.getX() + t, y);
+                        } else {
+                            group.setActionStop(true);
+                            group.setPosition(getWidth() - group.getWidth(), y);
+                        }
                     } else {
-                        group.setActionStop(true);
-                        group.setPosition(getWidth() - group.getWidth(), y);
+                        for (int i = 0; i < numberGroupsArray.size; i++) {
+                            if (!numberGroupsArray.get(i).isActionStop()) {
+                                if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+                                    if (group.getX() - group.getWidth() <= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
+                                        numberGroupsArray.get(i).setActionStop(true);
+                                        numberGroupsArray.get(i).setPosition(group.getX() - group.getWidth(), numberGroupsArray.get(i).getY());
+                                    }
+                                } else {
+                                    if (group.getX() <= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
+                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        float posX = group.getX();
+                                        float posY = group.getY();
+                                        numberGroupsArray.removeIndex(i);
+                                        numberGroupsArray.removeValue(group, true);
+                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                    }
+                                }
+                            }
+                        }
                     }
                     break;
             }

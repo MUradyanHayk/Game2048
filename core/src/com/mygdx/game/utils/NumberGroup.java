@@ -180,16 +180,16 @@ public class NumberGroup extends Group {
     public void act(float delta) {
         super.act(delta);
 
-        topRect.x = getX() * 0.5f - topRect.width * 0.5f;
-        topRect.y = getY() + getHeight() + topRect.height * 0.5f;
+        topRect.x = getX() + getWidth() * 0.5f - topRect.width * 0.5f;
+        topRect.y = getY() + getHeight() - topRect.height * 0.5f;
 
         bottomRect.x = topRect.x;
         bottomRect.y = getY() - bottomRect.height * 0.5f;
 
         leftRect.x = getX() - leftRect.width * 0.5f;
-        leftRect.y = getY() * 0.5f - leftRect.height * 0.5f;
+        leftRect.y = getY() + getHeight() * 0.5f - leftRect.height * 0.5f;
 
-        rightRect.x = getX() + rightRect.width * 0.5f;
+        rightRect.x = getX() - rightRect.width * 0.5f;
         rightRect.y = leftRect.y;
     }
 
