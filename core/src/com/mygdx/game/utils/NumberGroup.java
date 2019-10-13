@@ -26,10 +26,6 @@ public class NumberGroup extends Group {
     private Label.LabelStyle labelStyle;
     private String text;
     private boolean actionStop;
-    private Rectangle topRect;
-    private Rectangle bottomRect;
-    private Rectangle leftRect;
-    private Rectangle rightRect;
 
     public NumberGroup(float size) {
         this("", size);
@@ -59,32 +55,12 @@ public class NumberGroup extends Group {
         numberLabel.setAlignment(Align.center);
         numberLabel.setSize(getWidth(), getHeight());
         numberLabel.setPosition(getWidth() * 0.5f - numberLabel.getWidth() * 0.5f, getHeight() * 0.5f - numberLabel.getHeight() * 0.5f);
-        initRectangles();
     }
 
     private void initManagers() {
         assetsManager = AssetsManager.getInstance();
         skin = new Skin();
         skin.addRegions(assetsManager.getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
-    }
-
-    private void initRectangles() {
-        topRect = new Rectangle();
-        bottomRect = new Rectangle();
-        leftRect = new Rectangle();
-        rightRect = new Rectangle();
-
-        topRect.width = getWidth() * 0.5f;
-        topRect.height = getHeight() * 0.2f;
-
-        bottomRect.width = getWidth() * 0.5f;
-        bottomRect.height = getHeight() * 0.2f;
-
-        leftRect.width = getWidth() * 0.2f;
-        leftRect.height = getHeight() * 0.5f;
-
-        rightRect.width = getWidth() * 0.2f;
-        rightRect.height = getHeight() * 0.5f;
     }
 
     public void addNumber() {
@@ -176,23 +152,6 @@ public class NumberGroup extends Group {
         }
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        topRect.x = getX() + getWidth() * 0.5f - topRect.width * 0.5f;
-        topRect.y = getY() + getHeight() - topRect.height * 0.5f;
-
-        bottomRect.x = topRect.x;
-        bottomRect.y = getY() - bottomRect.height * 0.5f;
-
-        leftRect.x = getX() - leftRect.width * 0.5f;
-        leftRect.y = getY() + getHeight() * 0.5f - leftRect.height * 0.5f;
-
-        rightRect.x = getX() - rightRect.width * 0.5f;
-        rightRect.y = leftRect.y;
-    }
-
     public Image getNumberImg() {
         return numberImg;
     }
@@ -211,22 +170,6 @@ public class NumberGroup extends Group {
 
     public void setActionStop(boolean actionStop) {
         this.actionStop = actionStop;
-    }
-
-    public Rectangle getTopRect() {
-        return topRect;
-    }
-
-    public Rectangle getBottomRect() {
-        return bottomRect;
-    }
-
-    public Rectangle getLeftRect() {
-        return leftRect;
-    }
-
-    public Rectangle getRightRect() {
-        return rightRect;
     }
 }
 
