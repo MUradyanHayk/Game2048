@@ -251,9 +251,9 @@ public class BoardGroup extends Group {
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.get(i).setVisible(false);
-                                        group.setVisible(false);
-                                        removeActor(numberGroupsArray.get(i));
-                                        removeActor(group);
+                                        //group.setVisible(false);
+                                        frontEndGroup.removeActor(numberGroupsArray.get(i));
+                                        frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
 
@@ -291,9 +291,9 @@ public class BoardGroup extends Group {
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.get(i).setVisible(false);
-                                        group.setVisible(false);
-                                        removeActor(numberGroupsArray.get(i));
-                                        removeActor(group);
+                                        //group.setVisible(false);
+                                        frontEndGroup.removeActor(numberGroupsArray.get(i));
+                                        frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
                                         System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
@@ -330,9 +330,9 @@ public class BoardGroup extends Group {
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.get(i).setVisible(false);
-                                        group.setVisible(false);
-                                        removeActor(numberGroupsArray.get(i));
-                                        removeActor(group);
+                                        //group.setVisible(false);
+                                        frontEndGroup.removeActor(numberGroupsArray.get(i));
+                                        frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
                                         System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
@@ -369,9 +369,9 @@ public class BoardGroup extends Group {
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.get(i).setVisible(false);
-                                        group.setVisible(false);
-                                        removeActor(numberGroupsArray.get(i));
-                                        removeActor(group);
+                                        //group.setVisible(false);
+                                        frontEndGroup.removeActor(numberGroupsArray.get(i));
+                                        frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
                                         System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
