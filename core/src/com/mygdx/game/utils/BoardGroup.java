@@ -36,7 +36,9 @@ public class BoardGroup extends Group {
     private float dx;
     private float dy;
     private String detection;
-    private boolean justPaned = true;
+    private boolean justPaned1 = true;
+    private boolean justPaned2 = true;
+    private boolean actionStop = true;
     private BoardGroup context = this;
     private Random random;
     private boolean moving = false;
@@ -92,7 +94,7 @@ public class BoardGroup extends Group {
         skin.addRegions(AssetsManager.getInstance().getInternalManager().get(ConstInterface.IMAGES_PATH + ConstInterface.ATLAS));
     }
 
-    private void createNumber(String text) {
+    private NumberGroup createNumber(String text) {
         NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
 
         float x = random.nextInt(getSizeByLevel()) * numberGroup.getWidth();
@@ -116,9 +118,10 @@ public class BoardGroup extends Group {
         numberGroup.addNumber();
         numberGroupsArray.add(numberGroup);
         frontEndGroup.addActor(numberGroup);
+        return numberGroup;
     }
 
-    private void createNumber(String text, float x, float y) {
+    private NumberGroup createNumber(String text, float x, float y) {
         NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
 
         numberGroup.setPosition(x, y);
@@ -129,6 +132,7 @@ public class BoardGroup extends Group {
         numberGroup.addNumber();
         numberGroupsArray.add(numberGroup);
         frontEndGroup.addActor(numberGroup);
+        return numberGroup;
     }
 
     private int getSizeByLevel() {
@@ -198,11 +202,16 @@ public class BoardGroup extends Group {
                 return;
             }
         }
-        moving = false;
-        justPaned = true;
-        int num = random.nextInt(2);
-        String str = num == 1 ? "2" : "4";
-        createNumber(str);
+        // ???????
+        if (actionStop) {
+            moving = false;
+            justPaned1 = true;
+            int num = random.nextInt(2);
+            String str = num == 1 ? "2" : "4";
+            actionStop = true;
+            createNumber(str);
+            actionStop = true;
+        }
     }
 
     private void move(NumberGroup group) {
@@ -282,20 +291,24 @@ public class BoardGroup extends Group {
                         }
                     } else {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
+                            //numberGroupsArray.get(i) != group
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() - group.getHeight() >= numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() - group.getHeight() < numberGroupsArray.get(i).getY() + t) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(numberGroupsArray.get(i).getX(), group.getY() - group.getHeight());
+                                        actionStop = true;
                                     }
                                 } else {
                                     if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() <= numberGroupsArray.get(i).getY()) {
-                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
-                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                        System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
+                                        actionStop = false;
                                     }
                                 }
                             }
@@ -316,18 +329,21 @@ public class BoardGroup extends Group {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() + group.getHeight() >= numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() + group.getHeight() > numberGroupsArray.get(i).getY() - t) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(numberGroupsArray.get(i).getX(), group.getY() + group.getHeight());
+                                        actionStop = true;
                                     }
                                 } else {
                                     if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() >= numberGroupsArray.get(i).getY()) {
-                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
-                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
+                                        actionStop = false;
                                     }
                                 }
                             }
@@ -348,18 +364,21 @@ public class BoardGroup extends Group {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() + group.getWidth() >= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() + group.getWidth() > numberGroupsArray.get(i).getX() - t && group.getY() == numberGroupsArray.get(i).getY()) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(group.getX() + group.getWidth(), numberGroupsArray.get(i).getY());
+                                        actionStop = true;
                                     }
                                 } else {
                                     if (group.getX() >= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
-                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
-                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                        System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
+                                        actionStop = false;
                                     }
                                 }
                             }
@@ -380,18 +399,21 @@ public class BoardGroup extends Group {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() - group.getWidth() <= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() - group.getWidth() < numberGroupsArray.get(i).getX() + t && group.getY() == numberGroupsArray.get(i).getY()) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(group.getX() - group.getWidth(), numberGroupsArray.get(i).getY());
+                                        actionStop = true;
                                     }
                                 } else {
                                     if (group.getX() <= numberGroupsArray.get(i).getX() && group.getY() == numberGroupsArray.get(i).getY()) {
-                                        int num = Integer.parseInt(numberGroupsArray.get(i).getText());
+                                        int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
-                                        createNumber(String.valueOf(2 * num), posX, posY);
+                                        System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
+                                        actionStop = false;
                                     }
                                 }
                             }
@@ -399,7 +421,7 @@ public class BoardGroup extends Group {
                     }
                     break;
             }
-            System.out.println("action : moveTo");
+//            System.out.println("action : moveTo");
         }
     }
 
@@ -411,7 +433,7 @@ public class BoardGroup extends Group {
                 Gdx.input.isKeyJustPressed(Input.Keys.LEFT) ||
                 Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             motion();
-//            justPaned = true;
+//            justPaned1 = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && moving) {
             numbersMove();
@@ -433,7 +455,7 @@ public class BoardGroup extends Group {
     private class MyGestureAdapter extends GestureDetector.GestureAdapter {
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            if (justPaned) {
+            if (justPaned1 && justPaned2) {
                 if (justTouched) {
                     startX = x;
                     startY = y;
@@ -447,7 +469,8 @@ public class BoardGroup extends Group {
                     dy = startY - y;
                     if (Math.abs(dx) > Gdx.graphics.getWidth() * 0.008f || Math.abs(dy) > Gdx.graphics.getHeight() * 0.008) {
                         detection = detectDirection(x, y);
-                        justPaned = false;
+                        justPaned1 = false;
+                        justPaned2 = false;
                         motion();
                     }
                 }
@@ -458,7 +481,8 @@ public class BoardGroup extends Group {
         @Override
         public boolean panStop(float x, float y, int pointer, int button) {
             justTouched = true;
-//            justPaned = true;
+            justPaned2 = true;
+            System.out.println("panStop");
             return false;
         }
     }
@@ -474,6 +498,6 @@ public class BoardGroup extends Group {
 
         moving = true;
         Gdx.app.log("TAG", "paned");
-        //justPaned = false;
+        //justPaned1 = false;
     }
 }
