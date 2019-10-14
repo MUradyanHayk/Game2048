@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -220,7 +221,7 @@ public class BoardGroup extends Group {
             final float[] boundLeft = {0, group.getY()};
             final float[] boundRight = {getWidth() - group.getWidth(), group.getY()};
 
-            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 3.2f;
+            float t = Gdx.graphics.getDeltaTime() * Gdx.graphics.getWidth() * 3f;
 
             switch (detection) {
                 case ConstInterface.TOP:
@@ -270,7 +271,7 @@ public class BoardGroup extends Group {
 //                                        actionStop = true;
                                     }
                                 } else {
-                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() <= numberGroupsArray.get(i).getY() + t) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() <= numberGroupsArray.get(i).getY() + 2*t) {
                                         int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
@@ -328,17 +329,17 @@ public class BoardGroup extends Group {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() + group.getHeight() > numberGroupsArray.get(i).getY() - t) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() + group.getHeight() >= numberGroupsArray.get(i).getY() - t) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(numberGroupsArray.get(i).getX(), group.getY() + group.getHeight());
 //                                        actionStop = true;
                                     }
                                 } else {
-                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() >= numberGroupsArray.get(i).getY() - t) {
+                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() >= numberGroupsArray.get(i).getY() - 2*t) {
                                         int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
-                                        numberGroupsArray.get(i).setVisible(false);
+//                                        numberGroupsArray.get(i).setVisible(false);
                                         frontEndGroup.removeActor(numberGroupsArray.get(i));
                                         frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
@@ -391,17 +392,17 @@ public class BoardGroup extends Group {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() + group.getWidth() > numberGroupsArray.get(i).getX() - t && group.getY() == numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() + group.getWidth() >= numberGroupsArray.get(i).getX() - t && group.getY() == numberGroupsArray.get(i).getY()) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(group.getX() + group.getWidth(), numberGroupsArray.get(i).getY());
 //                                        actionStop = true;
                                     }
                                 } else {
-                                    if (group.getX() >= numberGroupsArray.get(i).getX() - t && group.getY() == numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() >= numberGroupsArray.get(i).getX() - 2*t && group.getY() == numberGroupsArray.get(i).getY()) {
                                         int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
-                                        numberGroupsArray.get(i).setVisible(false);
+//                                        numberGroupsArray.get(i).setVisible(false);
                                         frontEndGroup.removeActor(numberGroupsArray.get(i));
                                         frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
@@ -454,17 +455,17 @@ public class BoardGroup extends Group {
                         for (int i = 0; i < numberGroupsArray.size; i++) {
                             if (!numberGroupsArray.get(i).isActionStop()) {
                                 if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
-                                    if (group.getX() - group.getWidth() < numberGroupsArray.get(i).getX() + t && group.getY() == numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() - group.getWidth() <= numberGroupsArray.get(i).getX() + t && group.getY() == numberGroupsArray.get(i).getY()) {
                                         numberGroupsArray.get(i).setActionStop(true);
                                         numberGroupsArray.get(i).setPosition(group.getX() - group.getWidth(), numberGroupsArray.get(i).getY());
 //                                        actionStop = true;
                                     }
                                 } else {
-                                    if (group.getX() <= numberGroupsArray.get(i).getX() + t && group.getY() == numberGroupsArray.get(i).getY()) {
+                                    if (group.getX() <= numberGroupsArray.get(i).getX() + 2*t && group.getY() == numberGroupsArray.get(i).getY()) {
                                         int num = Integer.parseInt(group.getText());
                                         float posX = group.getX();
                                         float posY = group.getY();
-                                        numberGroupsArray.get(i).setVisible(false);
+//                                        numberGroupsArray.get(i).setVisible(false);
                                         frontEndGroup.removeActor(numberGroupsArray.get(i));
                                         frontEndGroup.removeActor(group);
                                         numberGroupsArray.removeIndex(i);
