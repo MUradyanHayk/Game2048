@@ -28,7 +28,6 @@ public class BoardGroup extends Group {
     private Image boardImg;
     private NumberGroup[][] numberGroups_bg;
     private Array<NumberGroup> numberGroupsArray;
-    private Array<Pos> posArray;
     private Group backEndGroup;
     private Group frontEndGroup;
     private boolean justTouched = true;
@@ -74,14 +73,12 @@ public class BoardGroup extends Group {
     }
 
     private void initNumberGroups() {
-        posArray = new Array<>();
         numberGroups_bg = new NumberGroup[getSizeByLevel()][getSizeByLevel()];
         for (int i = 0; i < numberGroups_bg.length; i++) {
             for (int j = 0; j < numberGroups_bg[i].length; j++) {
                 numberGroups_bg[i][j] = new NumberGroup(getWidth() / getSizeByLevel());
                 numberGroups_bg[i][j].setPosition(i * numberGroups_bg[i][j].getWidth(), j * numberGroups_bg[i][j].getHeight());
                 numberGroups_bg[i][j].addNumber();
-                posArray.add(new Pos(numberGroups_bg[i][j].getX(), numberGroups_bg[i][j].getY()));
                 backEndGroup.addActor(numberGroups_bg[i][j]);
             }
         }
@@ -98,6 +95,7 @@ public class BoardGroup extends Group {
     }
 
     private NumberGroup createNumber(String text) {
+
         NumberGroup numberGroup = new NumberGroup(text, getWidth() / getSizeByLevel());
 
         float x = random.nextInt(getSizeByLevel()) * numberGroup.getWidth();
@@ -208,10 +206,12 @@ public class BoardGroup extends Group {
         // ???????
         if (!actionStop) {
             moving = false;
-            int num = random.nextInt(2);
-            String str = num == 1 ? "2" : "4";
-            createNumber(str);
-            actionStop = true;
+            if (numberGroupsArray.size < getSizeByLevel() * getSizeByLevel()) {
+                int num = random.nextInt(2);
+                String str = num == 1 ? "2" : "4";
+                createNumber(str);
+                actionStop = true;
+            }
         }
         justPaned1 = true;
     }
@@ -273,9 +273,7 @@ public class BoardGroup extends Group {
                                         numberGroupsArray.removeValue(group, true);
 
                                         System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-                                        String numStr = String.valueOf(2 * num);
-                                        createNumber(numStr, posX, posY).setActionStop(true);
-                                        Toast.makeText(this, "+" + numStr, 2).show();
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
 //                                        actionStop = false;
                                     }
                                 }
@@ -329,9 +327,7 @@ public class BoardGroup extends Group {
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
                                         System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-                                        String numStr = String.valueOf(2 * num);
-                                        createNumber(numStr, posX, posY).setActionStop(true);
-                                        Toast.makeText(this, "+" + numStr, 2).show();
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
 //                                        actionStop = false;
                                     }
                                 }
@@ -353,7 +349,6 @@ public class BoardGroup extends Group {
                                                 numberGroupsArray.get(j).setActionStop(true);
                                                 return;
                                             }
-
                                         }
                                     }
                                 }
@@ -385,9 +380,7 @@ public class BoardGroup extends Group {
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
                                         System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-                                        String numStr = String.valueOf(2 * num);
-                                        createNumber(numStr, posX, posY).setActionStop(true);
-                                        Toast.makeText(this, "+" + numStr, 2).show();
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
 //                                        actionStop = false;
                                     }
                                 }
@@ -441,9 +434,7 @@ public class BoardGroup extends Group {
                                         numberGroupsArray.removeIndex(i);
                                         numberGroupsArray.removeValue(group, true);
                                         System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
-                                        String numStr = String.valueOf(2 * num);
-                                        createNumber(numStr, posX, posY).setActionStop(true);
-                                        Toast.makeText(this, "+" + numStr, 2).show();
+                                        createNumber(String.valueOf(2 * num), posX, posY).setActionStop(true);
 //                                        actionStop = false;
                                     }
                                 }
