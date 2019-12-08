@@ -85,7 +85,12 @@ public class BoardGroup extends Group {
         numberGroupsArray = new Array<>();
 
         createNumber("2");
-        createNumber("2");
+        int n = random.nextInt(2);
+        if (n == 1) {
+            createNumber("2");
+        } else {
+            createNumber("4");
+        }
     }
 
 
@@ -229,8 +234,8 @@ public class BoardGroup extends Group {
                     x = boundTop[0];
                     y = boundTop[1];
                     if (!group.isActionStop()) {
-                        if (group.getY() < y - t) {
 
+                        if (group.getY() < y - t) {
                             for (int i = 0; i < numberGroupsArray.size; i++) {
                                 for (int j = i + 1; j < numberGroupsArray.size; j++) {
                                     if (numberGroupsArray.get(i).isActionStop() && !numberGroupsArray.get(j).isActionStop()) {
@@ -246,6 +251,20 @@ public class BoardGroup extends Group {
                                 }
                             }
 
+                            /*
+                             * chtrtralu hamar
+                             * */
+//                            for (int i = 0; i < numberGroupsArray.size; i++) {
+//                                if (numberGroupsArray.get(i).isActionStop()) {
+//                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() + group.getHeight() == numberGroupsArray.get(i).getY()) {
+//                                        if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+//                                            group.setActionStop(true);
+//                                            actionStop = true;
+//                                            return;
+//                                        }
+//                                    }
+//                                }
+//                            }
                             group.setPosition(x, group.getY() + t);
                             actionStop = false;
                         } else {
@@ -285,6 +304,7 @@ public class BoardGroup extends Group {
                     x = boundBottom[0];
                     y = boundBottom[1];
                     if (!group.isActionStop()) {
+
                         if (group.getY() > y + t) {
                             for (int i = 0; i < numberGroupsArray.size; i++) {
                                 for (int j = i + 1; j < numberGroupsArray.size; j++) {
@@ -300,6 +320,21 @@ public class BoardGroup extends Group {
                                     }
                                 }
                             }
+
+                            /*
+                             * chtrtralu hamar
+                             * */
+//                            for (int i = 0; i < numberGroupsArray.size; i++) {
+//                                if (numberGroupsArray.get(i).isActionStop()) {
+//                                    if (group.getX() == numberGroupsArray.get(i).getX() && group.getY() - group.getHeight() - t > numberGroupsArray.get(i).getY()) {
+//                                        if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+//                                            actionStop = true;
+//                                            group.setActionStop(true);
+//                                            return;
+//                                        }
+//                                    }
+//                                }
+//                            }
 
                             group.setPosition(x, group.getY() - t);
                             actionStop = false;
@@ -339,6 +374,7 @@ public class BoardGroup extends Group {
                     x = boundLeft[0];
                     y = boundLeft[1];
                     if (!group.isActionStop()) {
+
                         if (group.getX() > x + t) {
                             for (int i = 0; i < numberGroupsArray.size; i++) {
                                 for (int j = i + 1; j < numberGroupsArray.size; j++) {
@@ -353,6 +389,21 @@ public class BoardGroup extends Group {
                                     }
                                 }
                             }
+
+                            /*
+                             * chtrtralu hamar
+                             * */
+//                            for (int i = 0; i < numberGroupsArray.size; i++) {
+//                                if (numberGroupsArray.get(i).isActionStop()) {
+//                                    if (group.getY() == numberGroupsArray.get(i).getY() && group.getX() - group.getWidth() == numberGroupsArray.get(i).getX()) {
+//                                        if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+//                                            group.setActionStop(true);
+//                                            actionStop = true;
+//                                            return;
+//                                        }
+//                                    }
+//                                }
+//                            }
 
                             group.setPosition(group.getX() - t, y);
                             actionStop = false;
@@ -392,6 +443,7 @@ public class BoardGroup extends Group {
                     x = boundRight[0];
                     y = boundRight[1];
                     if (!group.isActionStop()) {
+
                         if (group.getX() < x - t) {
                             for (int i = 0; i < numberGroupsArray.size; i++) {
                                 for (int j = i + 1; j < numberGroupsArray.size; j++) {
@@ -407,6 +459,21 @@ public class BoardGroup extends Group {
                                     }
                                 }
                             }
+
+                            /*
+                             * chtrtralu hamar
+                             * */
+//                            for (int i = 0; i < numberGroupsArray.size; i++) {
+//                                if (numberGroupsArray.get(i).isActionStop()) {
+//                                    if (group.getY() == numberGroupsArray.get(i).getY() && group.getX() + group.getWidth() == numberGroupsArray.get(i).getX()) {
+//                                        if (!group.getText().equals(numberGroupsArray.get(i).getText())) {
+//                                            actionStop = true;
+//                                            group.setActionStop(true);
+//                                            return;
+//                                        }
+//                                    }
+//                                }
+//                            }
 
                             group.setPosition(group.getX() + t, y);
                             actionStop = false;
